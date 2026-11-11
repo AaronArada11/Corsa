@@ -17,6 +17,7 @@
     <string name="plate_label">Plate Number (Optional)</string>
     <string name="mileage_label">Current Odometer (km)</string>
     <string name="edit_vehicle">Edit Car</string>
+    <string name="create_vehicle">Add Car</string>
     <string name="vehicle_details_title">Car Details</string>
     <string name="confirm_delete_title">Delete vehicle</string>
     <string name="confirm_delete_message">Delete %1$s? This action cannot be undone.</string>

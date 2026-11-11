@@ -27,11 +27,14 @@ class VehicleEditorFragment : Fragment(R.layout.fragment_vehicle_editor) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener { findNavController().navigateUp() }
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.title = getString(if (arguments?.getLong("vehicleId", 0L) == 0L) R.string.create_vehicle else R.string.edit_vehicle)
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         val content = view.findViewById<View>(R.id.editorContent)
         val status = view.findViewById<View>(R.id.editorStatus)
         val progress = view.findViewById<CircularProgressIndicator>(R.id.editorProgress)
         val statusTitle = view.findViewById<TextView>(R.id.editorStatusTitle)
+        val statusMessage = view.findViewById<TextView>(R.id.editorStatusMessage)
         val statusAction = view.findViewById<MaterialButton>(R.id.editorStatusAction)
         val storageError = view.findViewById<TextView>(R.id.storageError)
         val save = view.findViewById<MaterialButton>(R.id.saveVehicle)
@@ -53,10 +56,11 @@ class VehicleEditorFragment : Fragment(R.layout.fragment_vehicle_editor) {
                     status.isVisible = state !is VehicleEditorUiState.Form && state !is VehicleEditorUiState.Saved
                     progress.isVisible = state is VehicleEditorUiState.Loading
                     statusTitle.isVisible = state !is VehicleEditorUiState.Loading
+                    statusMessage.isVisible = state is VehicleEditorUiState.Missing
                     statusAction.isVisible = state is VehicleEditorUiState.LoadError || state is VehicleEditorUiState.Missing
                     when (state) {
                         VehicleEditorUiState.Loading -> Unit
-                        VehicleEditorUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
+                        VehicleEditorUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
                         is VehicleEditorUiState.LoadError -> { statusTitle.text = state.message; statusAction.setText(R.string.retry); statusAction.setOnClickListener { viewModel.retryLoad() } }
                         is VehicleEditorUiState.Form -> {
                             fun TextInputEditText.show(value: String) { if (text.toString() != value) setText(value) }

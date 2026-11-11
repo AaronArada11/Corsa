@@ -26,6 +26,7 @@
     <LinearLayout android:id="@+id/editorStatus" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:padding="24dp">
         <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/editorProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
         <TextView android:id="@+id/editorStatusTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center" android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+        <TextView android:id="@+id/editorStatusMessage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:textAppearance="?attr/textAppearanceBodyLarge" />
         <com.google.android.material.button.MaterialButton android:id="@+id/editorStatusAction" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:minHeight="48dp" />
     </LinearLayout>
 </LinearLayout>

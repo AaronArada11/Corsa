@@ -31,6 +31,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
         val status = view.findViewById<View>(R.id.detailsStatus)
         val progress = view.findViewById<CircularProgressIndicator>(R.id.detailsProgress)
         val statusTitle = view.findViewById<TextView>(R.id.detailsStatusTitle)
+        val statusMessage = view.findViewById<TextView>(R.id.detailsStatusMessage)
         val statusAction = view.findViewById<MaterialButton>(R.id.detailsStatusAction)
         val name = view.findViewById<TextView>(R.id.vehicleName)
         val plate = view.findViewById<TextView>(R.id.vehiclePlate)
@@ -51,10 +52,11 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                     status.isVisible = state !is VehicleDetailsUiState.Content && state !is VehicleDetailsUiState.Deleted
                     progress.isVisible = state is VehicleDetailsUiState.Loading
                     statusTitle.isVisible = state !is VehicleDetailsUiState.Loading
+                    statusMessage.isVisible = state is VehicleDetailsUiState.Missing
                     statusAction.isVisible = state is VehicleDetailsUiState.Error || state is VehicleDetailsUiState.Missing
                     when (state) {
                         VehicleDetailsUiState.Loading -> Unit
-                        VehicleDetailsUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
+                        VehicleDetailsUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
                         is VehicleDetailsUiState.Error -> { statusTitle.text = state.message; statusAction.setText(R.string.retry); statusAction.setOnClickListener { viewModel.retry() } }
                         is VehicleDetailsUiState.Content -> {
                             name.text = state.vehicle.displayName

@@ -23,7 +23,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class VehicleScreenViewModelTest {
+class VehicleEditorViewModelTest {
     private val dispatcher = StandardTestDispatcher()
     private lateinit var dao: FakeDao
     private lateinit var repository: CorsaRepository
@@ -53,16 +53,37 @@ class VehicleScreenViewModelTest {
         assertEquals(second, dao.getById(second)?.id)
     }
 
-    private class FakeDao : VehicleDao {
-        private val rows = mutableMapOf<Long, VehicleEntity>()
-        private val state = MutableStateFlow<Map<Long, VehicleEntity>>(emptyMap())
-        var insertCount = 0
-        override suspend fun insert(vehicle: VehicleEntity): Long { insertCount++; val id = (rows.keys.maxOrNull() ?: 0) + 1; rows[id] = vehicle.copy(id = id); state.value = rows.toMap(); return id }
-        override suspend fun update(vehicle: VehicleEntity): Int = if (rows.containsKey(vehicle.id)) { rows[vehicle.id] = vehicle; state.value = rows.toMap(); 1 } else 0
-        override suspend fun getById(id: Long) = rows[id]
-        override fun observeById(id: Long): Flow<VehicleEntity?> = state.map { it[id] }
-        override fun observeAll(): Flow<List<VehicleEntity>> = state.map { it.values.sortedBy(VehicleEntity::id) }
-        override suspend fun deleteById(id: Long): Int { val removed = rows.remove(id); state.value = rows.toMap(); return if (removed == null) 0 else 1 }
-        override suspend fun advanceMileageIfHigher(id: Long, newMileageKm: Long) = 0
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class VehicleDetailsViewModelTest {
+    private val dispatcher = StandardTestDispatcher()
+
+    @Before fun setup() = Dispatchers.setMain(dispatcher)
+    @After fun teardown() = Dispatchers.resetMain()
+
+    @Test fun confirmedDelete_removesOnlyRequestedVehicle() = runTest {
+        val dao = FakeDao()
+        val first = dao.insert(VehicleEntity(brand = "A", model = "One", year = 2020, currentMileageKm = 1))
+        val second = dao.insert(VehicleEntity(brand = "B", model = "Two", year = 2021, currentMileageKm = 2))
+        val model = VehicleDetailsViewModel(CorsaRepository(dao), SavedStateHandle(mapOf("vehicleId" to first)))
+        advanceUntilIdle()
+        model.deleteConfirmed(); advanceUntilIdle()
+        assertEquals(VehicleDetailsUiState.Deleted, model.uiState.value)
+        assertNull(dao.getById(first))
+        assertEquals(second, dao.getById(second)?.id)
     }
+}
+
+private class FakeDao : VehicleDao {
+    private val rows = mutableMapOf<Long, VehicleEntity>()
+    private val state = MutableStateFlow<Map<Long, VehicleEntity>>(emptyMap())
+    var insertCount = 0
+    override suspend fun insert(vehicle: VehicleEntity): Long { insertCount++; val id = (rows.keys.maxOrNull() ?: 0) + 1; rows[id] = vehicle.copy(id = id); state.value = rows.toMap(); return id }
+    override suspend fun update(vehicle: VehicleEntity): Int = if (rows.containsKey(vehicle.id)) { rows[vehicle.id] = vehicle; state.value = rows.toMap(); 1 } else 0
+    override suspend fun getById(id: Long) = rows[id]
+    override fun observeById(id: Long): Flow<VehicleEntity?> = state.map { it[id] }
+    override fun observeAll(): Flow<List<VehicleEntity>> = state.map { it.values.sortedBy(VehicleEntity::id) }
+    override suspend fun deleteById(id: Long): Int { val removed = rows.remove(id); state.value = rows.toMap(); return if (removed == null) 0 else 1 }
+    override suspend fun advanceMileageIfHigher(id: Long, newMileageKm: Long) = 0
 }

@@ -15,6 +15,7 @@
     <LinearLayout android:id="@+id/detailsStatus" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:padding="24dp">
         <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/detailsProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
         <TextView android:id="@+id/detailsStatusTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center" android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+        <TextView android:id="@+id/detailsStatusMessage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:textAppearance="?attr/textAppearanceBodyLarge" />
         <com.google.android.material.button.MaterialButton android:id="@+id/detailsStatusAction" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:minHeight="48dp" />
     </LinearLayout>
 </LinearLayout>
