@@ -66,15 +66,15 @@
 
 **Acceptance criteria:**
 
-- [ ] Saving accepts trimmed brand and model, converts a blank plate to `null`, and returns the saved ID.
-- [ ] Saving rejects blank required text, years outside `1886..currentYear + 1`, negative mileage, and numeric overflow without changing Room.
-- [ ] Updating or deleting a missing ID reports the missing case. A repeated delete is safe and never inserts a row.
+- [x] Saving accepts trimmed brand and model, converts a blank plate to `null`, and returns the saved ID.
+- [x] Saving rejects blank required text, years outside `1886..currentYear + 1`, negative mileage, and numeric overflow without changing Room.
+- [x] Updating or deleting a missing ID reports the missing case. A repeated delete is safe and never inserts a row.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.CorsaRepositoryVehicleTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: inspect the test database after every rejected draft and confirm that no row changed.
+- [x] Tests pass: `./gradlew :app:testDebugUnitTest` and `./gradlew :app:assembleDebugAndroidTest`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: inspect the test database after every rejected draft and confirm that no row changed.
 
 **Dependencies:** Task 2.
 
@@ -90,10 +90,10 @@
 
 ## Checkpoint: Persistence foundation
 
-- [ ] Tasks 1 through 3 pass their focused checks.
-- [ ] `./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug` passes.
-- [ ] A device or emulator test reopens a file-backed database and reads two distinct vehicles.
-- [ ] Person B confirms the `AppContainer` repository provider and vehicle destination IDs before Task 6.
+- [x] Tasks 1 through 3 pass their focused checks.
+- [x] `./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug` passes.
+- [x] A device or emulator test reopens a file-backed database and reads two distinct vehicles.
+- [x] Person B confirms the `AppContainer` repository provider and vehicle destination IDs before Task 6.
 
 ## Task 4: Expose vehicle list screen state
 
