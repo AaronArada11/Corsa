@@ -9,9 +9,9 @@ The feature includes brand, model, model year, an optional plate number, and cur
 ## Evidence and current state
 
 - `Overview.md` and `decisions.md` assign vehicle persistence, vehicle CRUD, and Room setup to Person A.
-- The repository contains the Room vehicle foundation and list state/adapter, but the generated activity still has no navigation host or usable vehicle screen.
+- The repository contains the complete Room-backed vehicle list, add/edit form, details screen, confirmed deletion, application container, and Navigation host.
 - Room, Navigation Component, Lifecycle, and coroutines dependencies are already staged. This conflicts with an older line in `STATUS.md` that says they are absent. The repository is the source of truth for the current implementation.
-- `GRADLE_USER_HOME=/tmp/corsa-gradle ANDROID_USER_HOME=/tmp/corsa-android ./gradlew --no-daemon --no-watch-fs --no-configuration-cache testDebugUnitTest assembleDebug` passed on 2026-11-11. Gradle fell back to in-process Kotlin compilation because the sandbox blocked the user-level Kotlin daemon directory.
+- `GRADLE_USER_HOME=/tmp/corsa-gradle ANDROID_USER_HOME=/tmp/corsa-android ./gradlew --no-daemon --no-watch-fs --no-configuration-cache :app:testDebugUnitTest :app:assembleDebug :app:lintDebug :app:connectedDebugAndroidTest` passed on the Android 17 `Small_Phone` emulator on 2026-11-11.
 - `app/build.gradle.kts` routes the Room compiler through KSP and exports schema version 1.
 
 ## Architecture decisions
@@ -69,27 +69,27 @@ Person B app shell and navigation contract
 
 ### Checkpoint: Persistence foundation
 
-- [ ] Room code generation succeeds and exports schema version 1.
-- [ ] Focused DAO and repository tests pass on an emulator or device.
-- [ ] The debug app and local unit tests build without warnings caused by the feature configuration.
+- [x] Room code generation succeeds and exports schema version 1.
+- [x] Focused DAO and repository tests pass on an emulator or device.
+- [x] The debug app and local unit tests build without warnings caused by the feature configuration.
 
 ### Phase 2: Vehicle screens
 
-- [ ] Task 4: Expose vehicle list screen state.
-- [ ] Task 5: Render vehicle list rows.
-- [ ] Task 6: Integrate the vehicle list with the app shell.
-- [ ] Task 7: Expose add and edit screen state.
-- [ ] Task 8: Render the add and edit form.
-- [ ] Task 9: Expose vehicle details and deletion state.
-- [ ] Task 10: Render vehicle details and confirmed deletion.
+- [x] Task 4: Expose vehicle list screen state.
+- [x] Task 5: Render vehicle list rows.
+- [x] Task 6: Integrate the vehicle list with the app shell.
+- [x] Task 7: Expose add and edit screen state.
+- [x] Task 8: Render the add and edit form.
+- [x] Task 9: Expose vehicle details and deletion state.
+- [x] Task 10: Render vehicle details and confirmed deletion.
 
 ### Checkpoint: Complete vehicle CRUD
 
-- [ ] A user can create, list, view, edit, and delete two distinct vehicle profiles.
-- [ ] Saved profiles survive app restart and an edit never changes another profile.
-- [ ] Invalid input stays in the form with field errors and causes no database write.
-- [ ] Rotation preserves the editor draft. A missing vehicle shows an explanation and a route back.
-- [ ] The complete Gradle, emulator, accessibility, light-theme, and dark-theme checks pass.
+- [x] A user can create, list, view, edit, and delete two distinct vehicle profiles.
+- [x] Saved profiles survive app restart and an edit never changes another profile.
+- [x] Invalid input stays in the form with field errors and causes no database write.
+- [x] Rotation preserves the editor draft. A missing vehicle shows an explanation and a route back.
+- [x] The complete Gradle, emulator, accessibility, light-theme, and dark-theme checks pass.
 
 ## Acceptance boundary
 
