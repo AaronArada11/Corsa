@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Corsa" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@color/corsa_background</item>
+        <item name="android:colorBackground">@color/corsa_background</item>
+        <item name="colorSurface">@color/corsa_surface</item>
+        <item name="colorOnSurface">@color/corsa_primary_content</item>
+        <item name="colorOnSurfaceVariant">@color/corsa_secondary_content</item>
+        <item name="colorPrimary">@color/corsa_accent</item>
+        <item name="colorOnPrimary">@color/corsa_on_accent</item>
+        <item name="colorError">@color/corsa_error</item>
     </style>
 
     <style name="Theme.Corsa" parent="Base.Theme.Corsa" />

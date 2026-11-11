@@ -101,15 +101,15 @@
 
 **Acceptance criteria:**
 
-- [ ] The first state is loading, an empty query becomes the empty state, and saved vehicles appear in stable ID order.
-- [ ] The content state carries only the values that the list renders and the vehicle ID needed for navigation.
-- [ ] A storage failure becomes a retryable error state and does not terminate later observations.
+- [x] The first state is loading, an empty query becomes the empty state, and saved vehicles appear in stable ID order.
+- [x] The content state carries only the values that the list renders and the vehicle ID needed for navigation.
+- [x] A storage failure becomes a retryable error state and does not terminate later observations.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:testDebugUnitTest --tests '*VehicleListViewModelTest'`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: read the state test cases and confirm that they assert observable states rather than private calls.
+- [x] Tests pass: `./gradlew :app:testDebugUnitTest --tests '*VehicleListViewModelTest'`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: read the state test cases and confirm that they assert observable states rather than private calls.
 
 **Dependencies:** Task 3.
 

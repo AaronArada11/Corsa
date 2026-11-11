@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Light Theme Palette (Contrast-checked per Apple Design & Corsa Spec) -->
+    <color name="corsa_background">#F5F7F8</color>
+    <color name="corsa_surface">#FFFFFF</color>
+    <color name="corsa_surface_variant">#E9ECEF</color>
+    <color name="corsa_primary_content">#16181C</color>
+    <color name="corsa_secondary_content">#515A64</color>
+    <color name="corsa_warning">#755500</color>
+    <color name="corsa_error">#A32124</color>
+    <color name="corsa_accent">#0066CC</color>
+    <color name="corsa_on_accent">#FFFFFF</color>
+    <color name="corsa_card_border">#D0D5DD</color>
 </resources>
