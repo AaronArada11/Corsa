@@ -12,15 +12,15 @@
 
 **Acceptance criteria:**
 
-- [ ] The version catalog declares KSP 2.3.6 or newer and both Gradle build files apply it through the existing plugin-alias pattern.
-- [ ] `app/build.gradle.kts` uses `ksp(libs.androidx.room.compiler)` and no longer uses `annotationProcessor` for Room.
-- [ ] The debug app and local unit tests compile without adding a Kotlin Android plugin, kapt, or another dependency.
+- [x] The version catalog declares KSP 2.3.6 or newer and both Gradle build files apply it through the existing plugin-alias pattern.
+- [x] `app/build.gradle.kts` uses `ksp(libs.androidx.room.compiler)` and no longer uses `annotationProcessor` for Room.
+- [x] The debug app and local unit tests compile without adding a Kotlin Android plugin, kapt, or another dependency.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:testDebugUnitTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: inspect Gradle output and confirm that KSP tasks run once a Room entity exists in Task 2.
+- [x] Tests pass: `./gradlew :app:testDebugUnitTest`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: inspect Gradle output and confirm that KSP tasks run once a Room entity exists in Task 2.
 
 **Dependencies:** None.
 
