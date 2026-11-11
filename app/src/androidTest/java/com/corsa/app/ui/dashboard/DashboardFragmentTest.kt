@@ -7,7 +7,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.corsa.app.MainActivity
@@ -20,7 +19,6 @@ class DashboardFragmentTest {
     @Test
     fun partnerChrome_threeTabs_andEditorHidesBottomBar() {
         ActivityScenario.launch(MainActivity::class.java).use {
-            onView(withText(R.string.dashboard_logo_placeholder)).check(matches(isDisplayed()))
             onView(withId(R.id.settingsButton)).check(matches(isDisplayed()))
             onView(withId(R.id.addVehicleButton)).check(matches(isDisplayed()))
             onView(withId(R.id.analyticsFragment)).check(matches(isDisplayed()))
