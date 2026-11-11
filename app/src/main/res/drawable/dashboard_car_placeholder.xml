@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+
+    <!-- Soft ground beneath the vehicle -->
+    <path
+        android:fillColor="@color/corsa_surface_variant"
+        android:fillAlpha="0.32"
+        android:pathData="M35,149
+            C81,139 239,139 285,149
+            C238,158 82,158 35,149 Z" />
+
+    <!-- Filled, unbranded vehicle silhouette -->
+    <path
+        android:fillColor="@color/corsa_surface_variant"
+        android:strokeColor="@color/corsa_secondary_content"
+        android:strokeWidth="1.5"
+        android:pathData="M31,115
+            L46,108
+            L68,104
+            L88,78
+            C102,61 124,55 158,55
+            L194,55
+            C218,56 235,70 251,94
+            L278,102
+            C287,105 292,112 292,122
+            L292,132
+            L263,132
+            C261,117 251,108 237,108
+            C223,108 212,118 210,132
+            L110,132
+            C108,117 96,108 81,108
+            C66,108 55,118 53,132
+            L31,132 Z" />
+
+    <!-- Dark window shapes -->
+    <path
+        android:fillColor="@color/corsa_surface"
+        android:pathData="M97,79
+            C109,66 128,62 157,62
+            L161,62
+            L161,97
+            L79,97 Z
+            M168,62
+            L193,62
+            C211,63 227,75 239,96
+            L168,97 Z" />
+
+    <!-- Roof and body highlights -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/corsa_primary_content"
+        android:strokeAlpha="0.55"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M76,99 L244,99
+            M38,116 L52,111
+            M276,111 L286,115" />
+
+    <!-- Wheels -->
+    <path
+        android:fillColor="@color/corsa_secondary_content"
+        android:pathData="M103,132
+            a22,22 0,1 0,-44 0
+            a22,22 0,1 0,44 0
+            M259,132
+            a22,22 0,1 0,-44 0
+            a22,22 0,1 0,44 0" />
+
+    <path
+        android:fillColor="@color/corsa_surface"
+        android:pathData="M92,132
+            a11,11 0,1 0,-22 0
+            a11,11 0,1 0,22 0
+            M248,132
+            a11,11 0,1 0,-22 0
+            a11,11 0,1 0,22 0" />
+</vector>

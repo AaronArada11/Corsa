@@ -3,8 +3,8 @@
 
     <item
         android:state_checked="true"
-        android:color="@color/corsa_accent" />
+        android:color="@color/dashboard_selected" />
 
-    <item android:color="@color/corsa_secondary_content" />
+    <item android:color="@color/dashboard_text_secondary" />
 
 </selector>

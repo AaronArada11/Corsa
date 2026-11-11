@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.matcher.ViewMatchers.Visibility
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.corsa.app.MainActivity
@@ -16,9 +17,13 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class DashboardFragmentTest {
-    @Test fun twoTabsNavigate_andEditorHidesBottomBar() {
+    @Test
+    fun partnerChrome_threeTabs_andEditorHidesBottomBar() {
         ActivityScenario.launch(MainActivity::class.java).use {
-            onView(withId(R.id.dashboardAction)).check(matches(isDisplayed()))
+            onView(withText(R.string.dashboard_logo_placeholder)).check(matches(isDisplayed()))
+            onView(withId(R.id.settingsButton)).check(matches(isDisplayed()))
+            onView(withId(R.id.addVehicleButton)).check(matches(isDisplayed()))
+            onView(withId(R.id.analyticsFragment)).check(matches(isDisplayed()))
             onView(withId(R.id.vehicleListFragment)).perform(click())
             onView(withId(R.id.addVehicle)).check(matches(isDisplayed())).perform(click())
             onView(withId(R.id.bottomNavigation)).check(matches(withEffectiveVisibility(Visibility.GONE)))

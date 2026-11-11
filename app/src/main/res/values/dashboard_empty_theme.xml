@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dashboard_background">#080C11</color>
+    <color name="dashboard_light_center">#242D39</color>
+    <color name="dashboard_light_mid">#111922</color>
+
+    <color name="dashboard_surface">#111820</color>
+    <color name="dashboard_surface_end">#0C1219</color>
+
+    <color name="dashboard_text">#F4F7FB</color>
+    <color name="dashboard_text_secondary">#B8C2CE</color>
+
+    <color name="dashboard_button">#246BDD</color>
+    <color name="dashboard_on_button">#FFFFFF</color>
+
+    <color name="dashboard_selected">#82B8FF</color>
+    <color name="dashboard_selection">#172F4B</color>
+    <color name="dashboard_ripple">#24FFFFFF</color>
+
+    <style name="Theme.Corsa.EmptyDashboard"
+        parent="Theme.Material3.Dark.NoActionBar">
+
+        <item name="android:windowBackground">@color/dashboard_background</item>
+        <item name="android:colorBackground">@color/dashboard_background</item>
+        <item name="android:fontFamily">sans-serif</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+
+        <item name="colorSurface">@color/dashboard_surface</item>
+        <item name="colorOnSurface">@color/dashboard_text</item>
+        <item name="colorOnSurfaceVariant">@color/dashboard_text_secondary</item>
+
+        <item name="colorPrimary">@color/dashboard_button</item>
+        <item name="colorOnPrimary">@color/dashboard_on_button</item>
+        <item name="colorPrimaryContainer">@color/dashboard_selection</item>
+        <item name="colorOnPrimaryContainer">@color/dashboard_selected</item>
+
+        <item name="colorSecondaryContainer">@color/dashboard_selection</item>
+        <item name="colorOnSecondaryContainer">@color/dashboard_selected</item>
+    </style>
+
+    <style name="TextAppearance.Corsa.EmptyDashboard.Navigation"
+        parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="TextAppearance.Corsa.EmptyDashboard.Navigation.Selected"
+        parent="TextAppearance.Corsa.EmptyDashboard.Navigation">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Corsa.EmptyDashboard.ActiveIndicator"
+        parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/dashboard_selection</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">32dp</item>
+    </style>
+
+</resources>

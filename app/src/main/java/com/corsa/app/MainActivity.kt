@@ -29,7 +29,9 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            bottomNavigation.isVisible = destination.id == R.id.dashboardFragment || destination.id == R.id.vehicleListFragment
+            bottomNavigation.isVisible = destination.id == R.id.dashboardFragment ||
+                destination.id == R.id.vehicleListFragment ||
+                destination.id == R.id.analyticsFragment
         }
     }
 }

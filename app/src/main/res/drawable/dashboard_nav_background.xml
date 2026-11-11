@@ -5,8 +5,8 @@
 
     <gradient
         android:angle="270"
-        android:startColor="@color/corsa_surface"
-        android:endColor="@color/corsa_surface_variant" />
+        android:startColor="@color/dashboard_surface"
+        android:endColor="@color/dashboard_surface_end" />
 
     <corners android:radius="24dp" />
 

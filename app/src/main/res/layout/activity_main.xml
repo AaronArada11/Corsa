@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/corsa_background">
-    <androidx.fragment.app.FragmentContainerView android:id="@+id/navHost" android:name="androidx.navigation.fragment.NavHostFragment" android:layout_width="0dp" android:layout_height="0dp" app:defaultNavHost="true" app:layout_constraintBottom_toTopOf="@id/bottomNavigation" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:navGraph="@navigation/nav_graph" />
-    <com.google.android.material.bottomnavigation.BottomNavigationView android:id="@+id/bottomNavigation" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_marginEnd="12dp" android:layout_marginBottom="8dp" android:minHeight="76dp" android:background="@drawable/dashboard_nav_background" app:backgroundTint="@null" app:elevation="0dp" app:itemHorizontalTranslationEnabled="false" app:itemIconSize="24dp" app:itemIconTint="@color/dashboard_nav_tint" app:itemTextColor="@color/dashboard_nav_tint" app:labelVisibilityMode="labeled" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintWidth_max="520dp" app:menu="@menu/main_navigation" />
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dashboard_empty_backdrop"
+    tools:context=".MainActivity"
+    tools:theme="@style/Theme.Corsa.EmptyDashboard">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:minHeight="76dp"
+        android:background="@drawable/dashboard_nav_background"
+        app:backgroundTint="@null"
+        app:elevation="0dp"
+        app:itemActiveIndicatorStyle="@style/Widget.Corsa.EmptyDashboard.ActiveIndicator"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/dashboard_nav_tint"
+        app:itemPaddingTop="8dp"
+        app:itemPaddingBottom="8dp"
+        app:itemRippleColor="@color/dashboard_ripple"
+        app:itemTextAppearanceActive="@style/TextAppearance.Corsa.EmptyDashboard.Navigation.Selected"
+        app:itemTextAppearanceInactive="@style/TextAppearance.Corsa.EmptyDashboard.Navigation"
+        app:itemTextColor="@color/dashboard_nav_tint"
+        app:labelFontScalingEnabled="true"
+        app:labelMaxLines="2"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/main_navigation"
+        app:layout_constraintWidth_max="520dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

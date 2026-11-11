@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/dashboardFragment" android:icon="@drawable/dashboard_ic_home" android:title="@string/dashboard_title" />
-    <item android:id="@+id/vehicleListFragment" android:icon="@drawable/dashboard_ic_car" android:title="@string/vehicles_title" />
+    <item
+        android:id="@+id/dashboardFragment"
+        android:icon="@drawable/dashboard_ic_home"
+        android:title="@string/dashboard_tab_dashboard" />
+    <item
+        android:id="@+id/vehicleListFragment"
+        android:icon="@drawable/dashboard_ic_car"
+        android:title="@string/vehicles_title" />
+    <item
+        android:id="@+id/analyticsFragment"
+        android:icon="@drawable/dashboard_ic_analytics"
+        android:title="@string/dashboard_tab_analytics" />
 </menu>

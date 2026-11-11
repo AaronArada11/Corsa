@@ -3,15 +3,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Light Theme Palette (Contrast-checked per Apple Design & Corsa Spec) -->
-    <color name="corsa_background">#F3F6FA</color>
-    <color name="corsa_surface">#FFFFFF</color>
-    <color name="corsa_surface_variant">#E6EEF8</color>
-    <color name="corsa_primary_content">#16181C</color>
-    <color name="corsa_secondary_content">#515A64</color>
-    <color name="corsa_warning">#755500</color>
-    <color name="corsa_error">#A32124</color>
-    <color name="corsa_accent">#145EB8</color>
+    <!-- Partner dashboard palette (forced dark visual language) -->
+    <color name="corsa_background">#080C11</color>
+    <color name="corsa_surface">#111820</color>
+    <color name="corsa_surface_variant">#172F4B</color>
+    <color name="corsa_primary_content">#F4F7FB</color>
+    <color name="corsa_secondary_content">#B8C2CE</color>
+    <color name="corsa_warning">#F3C969</color>
+    <color name="corsa_error">#FFB4AB</color>
+    <color name="corsa_accent">#246BDD</color>
     <color name="corsa_on_accent">#FFFFFF</color>
-    <color name="corsa_card_border">#D0D5DD</color>
+    <color name="corsa_card_border">#243241</color>
 </resources>
