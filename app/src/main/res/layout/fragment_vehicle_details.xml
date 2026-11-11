@@ -2,6 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/corsa_background" android:orientation="vertical">
     <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:title="@string/vehicle_details_title" app:navigationIcon="?attr/homeAsUpIndicator" />
+    <com.google.android.material.tabs.TabLayout android:id="@+id/detailsTabs" android:layout_width="match_parent" android:layout_height="wrap_content" />
+    <ScrollView android:id="@+id/documentHistoryPanel" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:visibility="gone">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/addDocument" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/document_add" />
+            <TextView android:id="@+id/documentHistoryStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:accessibilityLiveRegion="polite" />
+            <LinearLayout android:id="@+id/documentRows" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
     <ScrollView android:id="@+id/detailsContent" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
             <TextView android:id="@+id/vehicleName" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="?attr/textAppearanceHeadlineMedium" />

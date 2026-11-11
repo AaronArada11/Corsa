@@ -19,17 +19,44 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
+import android.widget.LinearLayout
+import android.widget.Button
+import com.google.android.material.tabs.TabLayout
+import com.corsa.app.model.*
+import java.text.SimpleDateFormat
+import java.math.BigDecimal
+import java.util.Date
+import java.util.Locale
 
 class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
+    private var selectedTab = 0
     private val viewModel by viewModels<VehicleDetailsViewModel> {
         VehicleDetailsViewModel.provideFactory((requireActivity().application as CorsaApplication).container.repository)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        selectedTab = savedInstanceState?.getInt("documentTab") ?: selectedTab
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
         toolbar.navigationContentDescription = getString(R.string.navigate_up)
         toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         val content = view.findViewById<View>(R.id.detailsContent)
+        val history = view.findViewById<View>(R.id.documentHistoryPanel)
+        val tabs = view.findViewById<TabLayout>(R.id.detailsTabs)
+        tabs.addTab(tabs.newTab().setText(R.string.document_profile))
+        tabs.addTab(tabs.newTab().setText(R.string.document_history))
+        tabs.selectTab(tabs.getTabAt(selectedTab))
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                selectedTab = tab.position
+                content.isVisible = selectedTab == 0 && viewModel.uiState.value is VehicleDetailsUiState.Content
+                history.isVisible = selectedTab == 1 && viewModel.uiState.value is VehicleDetailsUiState.Content
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) = Unit
+            override fun onTabReselected(tab: TabLayout.Tab) = Unit
+        })
+        view.findViewById<View>(R.id.addDocument).setOnClickListener {
+            findNavController().navigate(R.id.documentEditorFragment, Bundle().apply { putLong("vehicleId", requireArguments().getLong("vehicleId")) })
+        }
         val status = view.findViewById<View>(R.id.detailsStatus)
         val progress = view.findViewById<CircularProgressIndicator>(R.id.detailsProgress)
         val statusTitle = view.findViewById<TextView>(R.id.detailsStatusTitle)
@@ -50,7 +77,9 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    content.isVisible = state is VehicleDetailsUiState.Content
+                    tabs.isVisible = state is VehicleDetailsUiState.Content
+                    content.isVisible = state is VehicleDetailsUiState.Content && selectedTab == 0
+                    history.isVisible = state is VehicleDetailsUiState.Content && selectedTab == 1
                     status.isVisible = state !is VehicleDetailsUiState.Content && state !is VehicleDetailsUiState.Deleted
                     progress.isVisible = state is VehicleDetailsUiState.Loading
                     statusTitle.isVisible = state !is VehicleDetailsUiState.Loading
@@ -61,6 +90,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                         VehicleDetailsUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
                         is VehicleDetailsUiState.Error -> { statusTitle.text = state.message; statusAction.setText(R.string.retry); statusAction.setOnClickListener { viewModel.retry() } }
                         is VehicleDetailsUiState.Content -> {
+                            renderDocuments(view, state)
                             name.text = state.vehicle.displayName
                             plate.text = state.vehicle.plateNumber?.let { getString(R.string.details_plate, it) } ?: getString(R.string.details_no_plate)
                             mileage.text = getString(R.string.details_mileage, NumberFormat.getIntegerInstance().format(state.vehicle.currentMileageKm))
@@ -73,6 +103,58 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                     }
                 }
             }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("documentTab", selectedTab)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val state = viewModel.uiState.value as? VehicleDetailsUiState.Content ?: return
+        view?.let { renderDocuments(it, state) }
+    }
+
+    private fun renderDocuments(view: View, state: VehicleDetailsUiState.Content) {
+        val status = view.findViewById<TextView>(R.id.documentHistoryStatus)
+        status.text = state.documentError ?: if (state.documentsLoading) "Loading documents…" else if (state.documents.isEmpty()) getString(R.string.document_empty) else ""
+        status.setOnClickListener { viewModel.retryDocuments() }
+        val rows = view.findViewById<LinearLayout>(R.id.documentRows)
+        rows.removeAllViews()
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT).format(Date())
+        state.documents.forEach { document ->
+            val row = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                setPadding(0, 24, 0, 24)
+            }
+            row.addView(TextView(requireContext()).apply {
+                text = listOfNotNull(document.title, resources.getStringArray(R.array.document_types)[document.documentType.ordinal],
+                    document.documentNumber, document.issueDate?.let { "Issued $it" }, document.expirationDate?.let { "Expires $it" },
+                    "₱${BigDecimal.valueOf(document.costMinor, 2).toPlainString()}", document.physicalLocation?.let { "Physical copy: $it" }, document.description).joinToString("\n")
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_BodyLarge)
+            })
+            val warning = when (document.expiration(today)) {
+                DocumentExpiration.EXPIRED -> "Expired"
+                DocumentExpiration.EXPIRES_TODAY -> "Expires today"
+                DocumentExpiration.EXPIRING_SOON -> "Expires within 30 days"
+                DocumentExpiration.CURRENT -> null
+            }
+            if (warning != null) row.addView(TextView(requireContext()).apply { text = warning; setTextColor(requireContext().getColor(R.color.corsa_primary_content)) })
+            row.addView(Button(requireContext()).apply {
+                setText(R.string.document_edit)
+                setOnClickListener { findNavController().navigate(R.id.documentEditorFragment, Bundle().apply {
+                    putLong("vehicleId", document.vehicleId); putLong("documentId", document.id)
+                }) }
+            })
+            row.addView(Button(requireContext()).apply {
+                setText(R.string.delete)
+                setOnClickListener { MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.document_delete_title)
+                    .setMessage(R.string.document_delete_message).setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteDocument(document.id) }.show() }
+            })
+            rows.addView(row)
         }
     }
 }

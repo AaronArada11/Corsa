@@ -42,4 +42,8 @@
             android:name="vehicleId"
             app:argType="long" />
     </fragment>
+    <fragment android:id="@+id/documentEditorFragment" android:name="com.corsa.app.ui.vehicles.DocumentEditorFragment" android:label="@string/document_editor_title">
+        <argument android:name="vehicleId" app:argType="long" />
+        <argument android:name="documentId" android:defaultValue="0L" app:argType="long" />
+    </fragment>
 </navigation>

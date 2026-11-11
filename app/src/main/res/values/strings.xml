@@ -42,4 +42,27 @@
     <string name="details_mileage">Current odometer: %1$s km</string>
     <string name="details_plate">Plate: %1$s</string>
     <string name="details_no_plate">No plate number</string>
+    <string name="document_editor_title">Vehicle document</string>
+    <string name="document_title">Title *</string>
+    <string name="document_type">Document type</string>
+    <string name="document_number">Document number</string>
+    <string name="document_issue_date">Issue date (YYYY-MM-DD)</string>
+    <string name="document_expiration_date">Expiration date (YYYY-MM-DD)</string>
+    <string name="document_cost">Cost (PHP)</string>
+    <string name="document_location">Physical copy location</string>
+    <string name="document_description">Purpose and notes</string>
+    <string name="document_attach">Attach image or PDF</string>
+    <string name="document_history">Document History</string>
+    <string name="document_profile">Profile</string>
+    <string name="document_add">Add document</string>
+    <string name="document_empty">No documents yet. Keep digital and physical records together.</string>
+    <string name="document_delete_title">Delete document?</string>
+    <string name="document_delete_message">This removes the record and its saved attachment.</string>
+    <string name="document_open">Open attachment</string>
+    <string name="document_unavailable">Attachment unavailable</string>
+    <string name="document_none">No digital attachment</string>
+    <string name="document_attached">Digital attachment saved</string>
+    <string name="document_edit">Edit document</string>
+    <string name="document_preview">Document preview</string>
+    <string-array name="document_types"><item>Registration</item><item>Insurance</item><item>Service record</item><item>Other</item></string-array>
 </resources>

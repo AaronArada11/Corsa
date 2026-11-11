@@ -6,6 +6,8 @@ sealed interface VehicleDetailsUiState {
     data object Loading : VehicleDetailsUiState
     data object Missing : VehicleDetailsUiState
     data class Error(val message: String) : VehicleDetailsUiState
-    data class Content(val vehicle: Vehicle, val deleting: Boolean = false, val deleteError: String? = null) : VehicleDetailsUiState
+    data class Content(val vehicle: Vehicle, val deleting: Boolean = false, val deleteError: String? = null,
+        val documents: List<com.corsa.app.model.VehicleDocument> = emptyList(),
+        val documentError: String? = null, val documentsLoading: Boolean = true) : VehicleDetailsUiState
     data object Deleted : VehicleDetailsUiState
 }
