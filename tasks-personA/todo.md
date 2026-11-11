@@ -289,4 +289,4 @@
 - [x] `./gradlew :app:connectedDebugAndroidTest` passes on the target emulator or device.
 - [x] The app creates, lists, opens, edits, and deletes vehicle profiles after a full restart.
 - [x] Light and dark themes, large text, TalkBack order, keyboard avoidance, labels, errors, and 48dp touch targets pass manual inspection.
-- [ ] `STATUS.md`, `decisions.md`, and `progress.md` record only the verified state and checks.
+- [x] `STATUS.md`, `decisions.md`, and `progress.md` record only the verified state and checks.
