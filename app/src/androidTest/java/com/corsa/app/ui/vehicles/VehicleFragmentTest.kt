@@ -82,11 +82,11 @@ class VehicleDetailsFragmentTest {
             onView(withText("2024 Delete Test Only This")).check(matches(isDisplayed()))
 
             onView(withId(R.id.deleteVehicle)).perform(click())
-            onView(withText(R.string.cancel)).perform(click())
+            onView(withId(android.R.id.button2)).perform(click())
             onView(withText("2024 Delete Test Only This")).check(matches(isDisplayed()))
 
             onView(withId(R.id.deleteVehicle)).perform(click())
-            onView(withText(R.string.delete)).perform(click())
+            onView(withId(android.R.id.button1)).perform(click())
             onView(withId(R.id.addVehicle)).check(matches(isDisplayed()))
         }
     }
