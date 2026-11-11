@@ -23,12 +23,14 @@ class CorsaRepository(
     private val vehicleDao: VehicleDao,
     private val currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) },
     private val documentDao: VehicleDocumentDao? = null,
-    private val database: CorsaDatabase? = null
+    private val database: CorsaDatabase? = null,
+    private val documentFiles: DocumentFiles? = null
 ) {
     constructor(
         database: CorsaDatabase,
-        currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) }
-    ) : this(database.vehicleDao(), currentYearProvider, database.vehicleDocumentDao(), database)
+        currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) },
+        documentFiles: DocumentFiles? = null
+    ) : this(database.vehicleDao(), currentYearProvider, database.vehicleDocumentDao(), database, documentFiles)
 
     private fun documents() = checkNotNull(documentDao) { "Document storage is not configured" }
 
@@ -48,17 +50,22 @@ class CorsaRepository(
         } catch (_: NumberFormatException) { null } catch (_: ArithmeticException) { null }
         if (cost == null || cost < 0) errors["cost"] = "Enter a nonnegative PHP amount with at most two decimals"
         if (cost != null && cost > 0 && issue == null) errors["issueDate"] = "Issue date is required for a paid document"
+        if (draft.filePath != null && documentFiles?.managedFile(draft.filePath) == null) errors["filePath"] = "Choose an app-managed attachment"
         if (errors.isNotEmpty()) return SaveOutcome.ValidationErrors(errors)
-        return transaction {
+        var replacedPath: String? = null
+        val result = transaction {
             val dao = documents()
             if (vehicleDao.getById(draft.vehicleId) == null) return@transaction SaveOutcome.MissingRecord
             if (draft.id != 0L && dao.getById(draft.id)?.vehicleId != draft.vehicleId) return@transaction SaveOutcome.MissingRecord
+            replacedPath = if (draft.id > 0) dao.getById(draft.id)?.filePath else null
             val entity = VehicleDocumentEntity(draft.id, draft.vehicleId, draft.title.trim(), draft.documentType.name,
                 draft.documentNumber.trim().ifEmpty { null }, issue, expiry, cost!!, draft.filePath,
                 draft.physicalLocation.trim().ifEmpty { null }, draft.description.trim().ifEmpty { null })
             if (draft.id == 0L) SaveOutcome.Success(dao.insert(entity))
             else if (dao.update(entity) > 0) SaveOutcome.Success(draft.id) else SaveOutcome.MissingRecord
         }
+        if (result is SaveOutcome.Success && replacedPath != draft.filePath) cleanupAttachment(replacedPath)
+        return result
     }
 
     suspend fun getDocument(id: Long): VehicleDocument? = documents().getById(id)?.toDomain()
@@ -66,8 +73,24 @@ class CorsaRepository(
     fun observeVehicleDocuments(vehicleId: Long): Flow<List<VehicleDocument>> =
         documents().observeForVehicle(vehicleId).map { rows -> rows.map { it.toDomain() } }
 
-    suspend fun deleteDocument(id: Long): DeleteOutcome =
-        if (documents().deleteById(id) > 0) DeleteOutcome.Deleted else DeleteOutcome.Missing
+    suspend fun deleteDocument(id: Long): DeleteOutcome {
+        var path: String? = null
+        val result = transaction {
+            path = documents().getById(id)?.filePath
+            if (documents().deleteById(id) > 0) DeleteOutcome.Deleted else DeleteOutcome.Missing
+        }
+        cleanupAttachment(path)
+        return result
+    }
+
+    private suspend fun cleanupAttachment(path: String?) {
+        if (path == null || documentFiles == null) return
+        try { transaction { if (documents().countReferences(path) == 0) documentFiles.delete(path) } }
+        catch (error: kotlinx.coroutines.CancellationException) { throw error }
+        catch (_: Exception) { /* A committed deletion must not appear to fail because file cleanup failed. */ }
+    }
+
+    internal suspend fun discardDocumentAttachment(path: String) = cleanupAttachment(path)
 
     suspend fun saveVehicle(draft: VehicleDraft): SaveOutcome {
         val errors = mutableMapOf<String, String>()
@@ -126,7 +149,12 @@ class CorsaRepository(
     }
 
     suspend fun deleteVehicle(id: Long): DeleteOutcome {
-        val rowsDeleted = vehicleDao.deleteById(id)
+        var paths = emptyList<String>()
+        val rowsDeleted = transaction {
+            paths = documentDao?.attachmentPaths(id).orEmpty()
+            vehicleDao.deleteById(id)
+        }
+        paths.forEach { cleanupAttachment(it) }
         return if (rowsDeleted > 0) {
             DeleteOutcome.Deleted
         } else {

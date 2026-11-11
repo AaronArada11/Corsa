@@ -10,12 +10,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 data class DocumentEditorState(val draft: DocumentDraft, val loading: Boolean = true,
     val saving: Boolean = false, val saved: Boolean = false, val error: String? = null,
     val errors: Map<String, String> = emptyMap())
 
 class DocumentEditorViewModel(private val repository: CorsaRepository, private val savedState: SavedStateHandle) : ViewModel() {
+    private var originalPath: String? = null
+    private val pendingPaths = mutableSetOf<String>()
     private val vehicleId = savedState.get<Long>("vehicleId") ?: 0L
     private val documentId = savedState.get<Long>("documentId") ?: 0L
     private val mutableState = MutableStateFlow(DocumentEditorState(DocumentDraft(id = documentId, vehicleId = vehicleId)))
@@ -27,6 +31,7 @@ class DocumentEditorViewModel(private val repository: CorsaRepository, private v
         viewModelScope.launch {
             try {
                 val stored = if (documentId > 0) repository.getDocument(documentId) else null
+                originalPath = stored?.filePath
                 if (repository.getVehicle(vehicleId) == null || (documentId > 0 && stored?.vehicleId != vehicleId)) {
                     mutableState.value = mutableState.value.copy(loading = false, error = "Vehicle or document no longer exists")
                     return@launch
@@ -40,6 +45,7 @@ class DocumentEditorViewModel(private val repository: CorsaRepository, private v
                     documentNumber = values[2], issueDate = values[3], expirationDate = values[4], cost = values[5],
                     physicalLocation = values[6], description = values[7], filePath = savedState["documentPath"])
                 mutableState.value = DocumentEditorState(restored, loading = false, saved = savedState["documentSaved"] ?: false)
+                if (restored.filePath != null && restored.filePath != originalPath && !mutableState.value.saved) pendingPaths.add(restored.filePath)
             } catch (e: CancellationException) { throw e }
             catch (_: Exception) { mutableState.value = mutableState.value.copy(loading = false, error = "Unable to load document. Try again.") }
         }
@@ -47,6 +53,7 @@ class DocumentEditorViewModel(private val repository: CorsaRepository, private v
 
     fun update(draft: DocumentDraft) {
         if (mutableState.value.saving) return
+        if (draft.filePath != null && draft.filePath != originalPath) pendingPaths.add(draft.filePath)
         savedState["documentFields"] = arrayListOf(draft.title, draft.documentType.name, draft.documentNumber,
             draft.issueDate, draft.expirationDate, draft.cost, draft.physicalLocation, draft.description)
         savedState["documentPath"] = draft.filePath
@@ -60,13 +67,25 @@ class DocumentEditorViewModel(private val repository: CorsaRepository, private v
         viewModelScope.launch {
             try {
                 when (val result = repository.saveDocument(state.draft)) {
-                    is SaveOutcome.Success -> { savedState["documentSaved"] = true; mutableState.value = state.copy(saved = true) }
+                    is SaveOutcome.Success -> {
+                        pendingPaths.remove(state.draft.filePath)
+                        savedState["documentSaved"] = true
+                        mutableState.value = state.copy(saved = true)
+                    }
                     is SaveOutcome.ValidationErrors -> mutableState.value = state.copy(errors = result.errors)
                     SaveOutcome.MissingRecord -> mutableState.value = state.copy(error = "Vehicle or document no longer exists")
                 }
             } catch (e: CancellationException) { throw e }
             catch (_: Exception) { mutableState.value = state.copy(error = "Couldn’t save document. Try again.") }
         }
+    }
+
+    override fun onCleared() {
+        val paths = pendingPaths.toList()
+        if (paths.isNotEmpty()) CoroutineScope(Dispatchers.IO).launch {
+            paths.forEach { repository.discardDocumentAttachment(it) }
+        }
+        super.onCleared()
     }
 
     companion object {

@@ -15,6 +15,7 @@
             <com.google.android.material.button.MaterialButton android:id="@+id/documentAttach" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/document_attach" />
             <TextView android:id="@+id/documentAttachment" android:layout_width="match_parent" android:layout_height="wrap_content" />
             <TextView android:id="@+id/documentError" android:layout_width="match_parent" android:layout_height="wrap_content" android:accessibilityLiveRegion="polite" android:textColor="?attr/colorError" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/documentRetry" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/retry" android:visibility="gone" />
             <com.google.android.material.button.MaterialButton android:id="@+id/documentSave" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/save" />
         </LinearLayout>
     </ScrollView>

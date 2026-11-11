@@ -30,6 +30,8 @@ class VehicleDetailsViewModel(
 
     fun retry() {
         observation?.cancel()
+        documentObservation?.cancel()
+        documentObservation = null
         if (vehicleId <= 0L) { mutableState.value = VehicleDetailsUiState.Missing; return }
         mutableState.value = VehicleDetailsUiState.Loading
         observation = viewModelScope.launch {

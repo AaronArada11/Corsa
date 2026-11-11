@@ -6,5 +6,6 @@ import com.corsa.app.data.local.CorsaDatabase
 
 class AppContainer(context: Context) {
     private val database by lazy { CorsaDatabase.buildFileDatabase(context.applicationContext) }
-    val repository by lazy { CorsaRepository(database) }
+    val documentFiles by lazy { com.corsa.app.data.DocumentFiles(context.applicationContext) }
+    val repository by lazy { CorsaRepository(database, documentFiles = documentFiles) }
 }

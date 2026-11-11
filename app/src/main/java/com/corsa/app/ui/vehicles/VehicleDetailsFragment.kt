@@ -20,13 +20,17 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import android.widget.LinearLayout
-import android.widget.Button
 import com.google.android.material.tabs.TabLayout
 import com.corsa.app.model.*
 import java.text.SimpleDateFormat
 import java.math.BigDecimal
 import java.util.Date
 import java.util.Locale
+import android.content.Intent
+import android.content.ActivityNotFoundException
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.FileProvider
 
 class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
     private var selectedTab = 0
@@ -141,15 +145,43 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                 DocumentExpiration.EXPIRING_SOON -> "Expires within 30 days"
                 DocumentExpiration.CURRENT -> null
             }
-            if (warning != null) row.addView(TextView(requireContext()).apply { text = warning; setTextColor(requireContext().getColor(R.color.corsa_primary_content)) })
-            row.addView(Button(requireContext()).apply {
+            if (warning != null) row.addView(TextView(requireContext()).apply { text = warning; setTextColor(requireContext().getColor(R.color.corsa_warning)) })
+            document.filePath?.let { path ->
+                val files = (requireActivity().application as CorsaApplication).container.documentFiles
+                val file = files.managedFile(path)?.takeIf { it.isFile }
+                if (file == null) row.addView(TextView(requireContext()).apply { setText(R.string.document_unavailable) })
+                else {
+                    val preview = ImageView(requireContext()).apply {
+                        contentDescription = getString(R.string.document_preview)
+                        adjustViewBounds = true
+                        maxHeight = 320
+                    }
+                    row.addView(preview)
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        try { preview.setImageBitmap(files.thumbnail(path)) }
+                        catch (error: kotlinx.coroutines.CancellationException) { throw error }
+                        catch (_: Exception) { preview.visibility = View.GONE }
+                    }
+                    row.addView(MaterialButton(requireContext()).apply {
+                        text = if (file.extension == "pdf") "Open PDF attachment" else getString(R.string.document_open)
+                        setOnClickListener {
+                            val uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.documents", file)
+                            val mime = when (file.extension) { "pdf" -> "application/pdf"; "png" -> "image/png"; else -> "image/jpeg" }
+                            try { startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, mime).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)) }
+                            catch (_: ActivityNotFoundException) { Toast.makeText(requireContext(), "No app can open this attachment", Toast.LENGTH_LONG).show() }
+                        }
+                    })
+                }
+            }
+            row.addView(MaterialButton(requireContext()).apply {
                 setText(R.string.document_edit)
                 setOnClickListener { findNavController().navigate(R.id.documentEditorFragment, Bundle().apply {
                     putLong("vehicleId", document.vehicleId); putLong("documentId", document.id)
                 }) }
             })
-            row.addView(Button(requireContext()).apply {
+            row.addView(MaterialButton(requireContext()).apply {
                 setText(R.string.delete)
+                contentDescription = "Delete document ${document.title}"
                 setOnClickListener { MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.document_delete_title)
                     .setMessage(R.string.document_delete_message).setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.delete) { _, _ -> viewModel.deleteDocument(document.id) }.show() }
