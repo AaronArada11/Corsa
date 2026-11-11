@@ -8,5 +8,7 @@
         <item name="colorPrimary">@color/corsa_accent</item>
         <item name="colorOnPrimary">@color/corsa_on_accent</item>
         <item name="colorError">@color/corsa_error</item>
+        <item name="colorSurfaceContainer">@color/corsa_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/corsa_surface_variant</item>
     </style>
 </resources>
