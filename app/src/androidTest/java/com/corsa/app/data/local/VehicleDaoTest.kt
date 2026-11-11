@@ -146,5 +146,6 @@ class VehicleDaoTest {
         assertEquals("Suzuki", fileDb2.vehicleDao().getById(secondId)?.brand)
         fileDb2.close()
         dbFile.delete()
+        Unit
     }
 }
