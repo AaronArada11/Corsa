@@ -1,0 +1,28 @@
+package com.corsa.app.ui.dashboard
+
+import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.Visibility
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.corsa.app.MainActivity
+import com.corsa.app.R
+import org.junit.Test
+import org.junit.runner.RunWith
+
+@RunWith(AndroidJUnit4::class)
+class DashboardFragmentTest {
+    @Test fun twoTabsNavigate_andEditorHidesBottomBar() {
+        ActivityScenario.launch(MainActivity::class.java).use {
+            onView(withId(R.id.dashboardAction)).check(matches(isDisplayed()))
+            onView(withId(R.id.vehicleListFragment)).perform(click())
+            onView(withId(R.id.addVehicle)).check(matches(isDisplayed())).perform(click())
+            onView(withId(R.id.bottomNavigation)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+            onView(withId(R.id.brandInput)).check(matches(isDisplayed()))
+        }
+    }
+}

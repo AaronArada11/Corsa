@@ -20,6 +20,7 @@ class VehicleListFragmentTest {
     @Test
     fun addAction_opensBlankEditor() {
         ActivityScenario.launch(MainActivity::class.java).use {
+            onView(withId(R.id.vehicleListFragment)).perform(click())
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withText(R.string.create_vehicle)).check(matches(isDisplayed()))
             onView(withId(R.id.brandInput)).check(matches(withText("")))
@@ -32,6 +33,7 @@ class VehicleEditorFragmentTest {
     @Test
     fun draftSurvivesRecreation_andValidationStaysInline() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            onView(withId(R.id.vehicleListFragment)).perform(click())
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withId(R.id.brandInput)).perform(replaceText("Toyota"))
             onView(withId(R.id.modelInput)).perform(replaceText("Vios"))
@@ -55,6 +57,7 @@ class VehicleDetailsFragmentTest {
     @Test
     fun editVehicle_updatesObservedDetails() {
         ActivityScenario.launch(MainActivity::class.java).use {
+            onView(withId(R.id.vehicleListFragment)).perform(click())
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withId(R.id.brandInput)).perform(replaceText("Edit Test"))
             onView(withId(R.id.modelInput)).perform(replaceText("Observed"))
@@ -73,6 +76,7 @@ class VehicleDetailsFragmentTest {
     @Test
     fun createThenCancelAndConfirmDelete_returnsToList() {
         ActivityScenario.launch(MainActivity::class.java).use {
+            onView(withId(R.id.vehicleListFragment)).perform(click())
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withId(R.id.brandInput)).perform(replaceText("Delete Test"))
             onView(withId(R.id.modelInput)).perform(replaceText("Only This"))
