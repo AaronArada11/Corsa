@@ -38,15 +38,15 @@
 
 **Acceptance criteria:**
 
-- [ ] The `vehicle` table matches the frozen fields and exports schema version 1, including nullable `plateNumber` and `photoPath`.
-- [ ] DAO tests prove insert, ordered observation, lookup by ID, update without ID changes, delete, and isolation between two vehicles.
-- [ ] A file-backed test closes and reopens the database and reads the same saved values.
+- [x] The `vehicle` table matches the frozen fields and exports schema version 1, including nullable `plateNumber` and `photoPath`.
+- [x] DAO tests prove insert, ordered observation, lookup by ID, update without ID changes, delete, and isolation between two vehicles.
+- [x] A file-backed test closes and reopens the database and reads the same saved values.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.local.VehicleDaoTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: inspect the generated JSON under `app/schemas` and compare every column with the frozen vehicle contract.
+- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.local.VehicleDaoTest` (assembled and verified).
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: inspect the generated JSON under `app/schemas` and compare every column with the frozen vehicle contract.
 
 **Dependencies:** Task 1.
 
