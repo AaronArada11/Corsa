@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Corsa</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_empty_title">Your Garage Starts Here</string>
+    <string name="dashboard_empty_message">Add a vehicle to keep your garage details in one place.</string>
+    <string name="dashboard_garage_title">Your garage is ready</string>
+    <string name="dashboard_garage_message">%1$d cars saved and ready to manage.</string>
+    <string name="dashboard_add_vehicle">Add Car</string>
+    <string name="dashboard_view_cars">View My Cars</string>
+    <string name="dashboard_load_error_title">Couldn’t load your garage</string>
     <string name="vehicles_title">My Cars</string>
     <string name="add_vehicle">Add Car</string>
     <string name="empty_vehicles_title">No cars added yet</string>
@@ -8,25 +16,11 @@
     <string name="vehicle_load_error_title">Couldn’t load your cars</string>
     <string name="vehicle_row_with_plate">%1$s, plate %2$s, %3$s</string>
     <string name="vehicle_row_without_plate">%1$s, %2$s</string>
-    <string name="save">Save</string>
-    <string name="delete">Delete</string>
-    <string name="cancel">Cancel</string>
-    <string name="brand_label">Brand</string>
-    <string name="model_label">Model</string>
-    <string name="year_label">Model Year</string>
-    <string name="plate_label">Plate Number (Optional)</string>
-    <string name="mileage_label">Current Odometer (km)</string>
-    <string name="edit_vehicle">Edit Car</string>
-    <string name="create_vehicle">Add Car</string>
-    <string name="vehicle_details_title">Car Details</string>
-    <string name="confirm_delete_title">Delete vehicle</string>
-    <string name="confirm_delete_message">Delete %1$s? This action cannot be undone.</string>
-    <string name="missing_vehicle_title">Vehicle not found</string>
-    <string name="missing_vehicle_subtitle">This vehicle may have been deleted.</string>
-    <string name="back_to_list">Back to My Cars</string>
-    <string name="navigate_up">Navigate up</string>
-    <string name="editor_load_error">Couldn’t load this car</string>
-    <string name="details_mileage">Current odometer: %1$s km</string>
-    <string name="details_plate">Plate: %1$s</string>
-    <string name="details_no_plate">No plate number</string>
+    <string name="save">Save</string><string name="delete">Delete</string><string name="cancel">Cancel</string>
+    <string name="brand_label">Brand</string><string name="model_label">Model</string><string name="year_label">Model Year</string><string name="plate_label">Plate Number (Optional)</string><string name="mileage_label">Current Odometer (km)</string>
+    <string name="edit_vehicle">Edit Car</string><string name="create_vehicle">Add Car</string><string name="vehicle_details_title">Car Details</string>
+    <string name="confirm_delete_title">Delete vehicle</string><string name="confirm_delete_message">Delete %1$s? This action cannot be undone.</string>
+    <string name="missing_vehicle_title">Vehicle not found</string><string name="missing_vehicle_subtitle">This vehicle may have been deleted.</string><string name="back_to_list">Back to My Cars</string>
+    <string name="navigate_up">Navigate up</string><string name="editor_load_error">Couldn’t load this car</string>
+    <string name="details_mileage">Current odometer: %1$s km</string><string name="details_plate">Plate: %1$s</string><string name="details_no_plate">No plate number</string>
 </resources>

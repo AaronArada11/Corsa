@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="360dp"
+    android:height="200dp"
+    android:viewportWidth="360"
+    android:viewportHeight="200">
+
+    <!-- Soft pool of light beneath the silhouette. -->
+    <group
+        android:pivotX="180"
+        android:pivotY="163"
+        android:scaleY="0.10">
+
+        <path
+            android:pathData="
+                M30,163
+                A150,150 0,1 1,330 163
+                A150,150 0,1 1,30 163 Z">
+
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="radial"
+                    android:centerX="180"
+                    android:centerY="163"
+                    android:gradientRadius="150">
+
+                    <item
+                        android:offset="0"
+                        android:color="#506D8299" />
+
+                    <item
+                        android:offset="0.45"
+                        android:color="#243F536A" />
+
+                    <item
+                        android:offset="1"
+                        android:color="#003F536A" />
+
+                </gradient>
+            </aapt:attr>
+
+        </path>
+
+    </group>
+
+    <!-- Solid body with restrained charcoal shading. -->
+    <path
+        android:pathData="
+            M34,135
+            C34,119 40,113 55,110
+            C70,106 91,105 110,101
+            L137,83
+            C149,75 158,72 176,72
+            L201,73
+            C224,74 239,83 259,97
+            L293,103
+            C307,105 315,111 317,123
+            L320,140
+            C320,145 315,148 306,148
+            L47,148
+            C37,148 33,144 34,135
+            Z">
+
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="180"
+                android:startY="72"
+                android:endX="180"
+                android:endY="151">
+
+                <item
+                    android:offset="0"
+                    android:color="#38434F" />
+
+                <item
+                    android:offset="0.38"
+                    android:color="#202A35" />
+
+                <item
+                    android:offset="0.75"
+                    android:color="#111923" />
+
+                <item
+                    android:offset="1"
+                    android:color="#0A1017" />
+
+            </gradient>
+        </aapt:attr>
+
+    </path>
+
+    <!-- One quiet dark cabin shape, without window trim. -->
+    <path
+        android:pathData="
+            M122,101
+            L143,86
+            C153,79 163,77 177,77
+            L199,78
+            C217,79 233,87 247,98
+            C231,103 209,104 188,104
+            L130,104
+            Q122,104 122,101
+            Z">
+
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="180"
+                android:startY="77"
+                android:endX="180"
+                android:endY="105"
+                android:startColor="#18212B"
+                android:endColor="#0A1017" />
+        </aapt:attr>
+
+    </path>
+
+    <!-- A narrow, fading upper highlight instead of a full outline. -->
+    <path
+        android:pathData="
+            M37,125
+            C40,117 47,114 57,112
+            C75,108 95,107 112,103
+            L139,85
+            C151,77 160,75 177,75
+            L201,76
+            C222,77 238,85 258,99
+            L293,105
+            C304,107 311,111 314,119
+            C310,110 303,104 293,103
+            L259,97
+            C239,83 224,74 201,73
+            L176,72
+            C158,72 149,75 137,83
+            L110,101
+            C91,105 70,106 55,110
+            C44,112 38,117 37,125
+            Z">
+
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="42"
+                android:startY="85"
+                android:endX="315"
+                android:endY="120">
+
+                <item
+                    android:offset="0"
+                    android:color="#306F8398" />
+
+                <item
+                    android:offset="0.40"
+                    android:color="#A0A9B8C6" />
+
+                <item
+                    android:offset="0.72"
+                    android:color="#506F8398" />
+
+                <item
+                    android:offset="1"
+                    android:color="#006F8398" />
+
+            </gradient>
+        </aapt:attr>
+
+    </path>
+
+    <!-- Dark wheel shapes with a very subtle shaded edge. -->
+    <path
+        android:pathData="
+            M62,145
+            A19,19 0,1 1,100 145
+            A19,19 0,1 1,62 145 Z
+            M255,145
+            A19,19 0,1 1,293 145
+            A19,19 0,1 1,255 145 Z">
+
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="180"
+                android:startY="126"
+                android:endX="180"
+                android:endY="164"
+                android:startColor="#35414E"
+                android:endColor="#080D13" />
+        </aapt:attr>
+
+    </path>
+
+    <!-- Wheel interiors: no rims, spokes, or realistic detail. -->
+    <path
+        android:fillColor="#0A1017"
+        android:pathData="
+            M65,146
+            A16,16 0,1 1,97 146
+            A16,16 0,1 1,65 146 Z
+            M258,146
+            A16,16 0,1 1,290 146
+            A16,16 0,1 1,258 146 Z" />
+
+</vector>

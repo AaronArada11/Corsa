@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph" app:startDestination="@id/vehicleListFragment">
+    android:id="@+id/nav_graph" app:startDestination="@id/dashboardFragment">
+    <fragment android:id="@+id/dashboardFragment" android:name="com.corsa.app.ui.dashboard.DashboardFragment" android:label="@string/dashboard_title" />
     <fragment android:id="@+id/vehicleListFragment" android:name="com.corsa.app.ui.vehicles.VehicleListFragment" android:label="@string/vehicles_title" />
     <fragment android:id="@+id/vehicleEditorFragment" android:name="com.corsa.app.ui.vehicles.VehicleEditorFragment" android:label="@string/edit_vehicle">
         <argument android:name="vehicleId" android:defaultValue="0L" app:argType="long" />
