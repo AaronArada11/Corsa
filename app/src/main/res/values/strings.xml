@@ -19,9 +19,12 @@
     <string name="edit_vehicle">Edit Car</string>
     <string name="vehicle_details_title">Car Details</string>
     <string name="confirm_delete_title">Delete vehicle</string>
-    <string name="confirm_delete_message">Are you sure you want to delete this car? This action cannot be undone.</string>
+    <string name="confirm_delete_message">Delete %1$s? This action cannot be undone.</string>
     <string name="missing_vehicle_title">Vehicle not found</string>
     <string name="missing_vehicle_subtitle">This vehicle may have been deleted.</string>
     <string name="back_to_list">Back to My Cars</string>
     <string name="editor_load_error">Couldn’t load this car</string>
+    <string name="details_mileage">Current odometer: %1$s km</string>
+    <string name="details_plate">Plate: %1$s</string>
+    <string name="details_no_plate">No plate number</string>
 </resources>
