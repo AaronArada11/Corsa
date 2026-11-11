@@ -108,6 +108,15 @@ class VehicleDaoTest {
     }
 
     @Test
+    fun observeById_andAdvanceMileage_emitOnlyHigherMileage() = runBlocking {
+        val id = dao.insert(VehicleEntity(brand = "Kia", model = "Rio", year = 2020, currentMileageKm = 100L))
+        assertEquals(100L, dao.observeById(id).first()?.currentMileageKm)
+        assertEquals(0, dao.advanceMileageIfHigher(id, 99L))
+        assertEquals(1, dao.advanceMileageIfHigher(id, 101L))
+        assertEquals(101L, dao.observeById(id).first()?.currentMileageKm)
+    }
+
+    @Test
     fun fileBackedDatabase_persistsAcrossReopen() = runBlocking {
         val dbFile = File(context.filesDir, "test_file_backed.db")
         if (dbFile.exists()) dbFile.delete()
@@ -116,7 +125,10 @@ class VehicleDaoTest {
             .allowMainThreadQueries()
             .build()
         val id = fileDb1.vehicleDao().insert(
-            VehicleEntity(brand = "Hyundai", model = "Elantra", year = 2023, currentMileageKm = 5000L)
+            VehicleEntity(brand = "Hyundai", model = "Elantra", year = 2023, plateNumber = "ABC-123", currentMileageKm = 5000L, photoPath = "/photo/one")
+        )
+        val secondId = fileDb1.vehicleDao().insert(
+            VehicleEntity(brand = "Suzuki", model = "Swift", year = 2021, currentMileageKm = 42000L)
         )
         fileDb1.close()
 
@@ -127,6 +139,11 @@ class VehicleDaoTest {
         assertNotNull(loaded)
         assertEquals("Hyundai", loaded?.brand)
         assertEquals("Elantra", loaded?.model)
+        assertEquals(2023, loaded?.year)
+        assertEquals("ABC-123", loaded?.plateNumber)
+        assertEquals(5000L, loaded?.currentMileageKm)
+        assertEquals("/photo/one", loaded?.photoPath)
+        assertEquals("Suzuki", fileDb2.vehicleDao().getById(secondId)?.brand)
         fileDb2.close()
         dbFile.delete()
     }
