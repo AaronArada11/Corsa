@@ -23,4 +23,5 @@
     <string name="missing_vehicle_title">Vehicle not found</string>
     <string name="missing_vehicle_subtitle">This vehicle may have been deleted.</string>
     <string name="back_to_list">Back to My Cars</string>
+    <string name="editor_load_error">Couldn’t load this car</string>
 </resources>
