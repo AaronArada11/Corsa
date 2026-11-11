@@ -5,6 +5,9 @@
     <string name="empty_vehicles_title">No cars added yet</string>
     <string name="empty_vehicles_subtitle">Keep your vehicle records, maintenance schedules, and fuel logs in one place.</string>
     <string name="retry">Retry</string>
+    <string name="vehicle_load_error_title">Couldn’t load your cars</string>
+    <string name="vehicle_row_with_plate">%1$s, plate %2$s, %3$s</string>
+    <string name="vehicle_row_without_plate">%1$s, %2$s</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
@@ -14,10 +17,16 @@
     <string name="plate_label">Plate Number (Optional)</string>
     <string name="mileage_label">Current Odometer (km)</string>
     <string name="edit_vehicle">Edit Car</string>
+    <string name="create_vehicle">Add Car</string>
     <string name="vehicle_details_title">Car Details</string>
     <string name="confirm_delete_title">Delete vehicle</string>
-    <string name="confirm_delete_message">Are you sure you want to delete this car? This action cannot be undone.</string>
+    <string name="confirm_delete_message">Delete %1$s? This action cannot be undone.</string>
     <string name="missing_vehicle_title">Vehicle not found</string>
     <string name="missing_vehicle_subtitle">This vehicle may have been deleted.</string>
     <string name="back_to_list">Back to My Cars</string>
+    <string name="navigate_up">Navigate up</string>
+    <string name="editor_load_error">Couldn’t load this car</string>
+    <string name="details_mileage">Current odometer: %1$s km</string>
+    <string name="details_plate">Plate: %1$s</string>
+    <string name="details_no_plate">No plate number</string>
 </resources>

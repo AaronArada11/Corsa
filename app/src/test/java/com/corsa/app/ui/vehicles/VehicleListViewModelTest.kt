@@ -125,6 +125,25 @@ class VehicleListViewModelTest {
 
         val state = viewModel.uiState.value
         assertTrue(state is VehicleListUiState.Error)
-        assertEquals("Disk I/O error", (state as VehicleListUiState.Error).message)
+        assertEquals("Unable to load vehicles", (state as VehicleListUiState.Error).message)
+    }
+
+    @Test
+    fun retry_afterStorageFailure_resubscribesAndReceivesContent() = runTest {
+        fakeDao.shouldThrow = true
+        val viewModel = VehicleListViewModel(repository)
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.uiState.collect() }
+        advanceUntilIdle()
+        assertTrue(viewModel.uiState.value is VehicleListUiState.Error)
+
+        fakeDao.shouldThrow = false
+        repository.saveVehicle(
+            VehicleDraft(brand = "Mazda", model = "3", year = "2024", currentMileageKm = "12")
+        )
+        viewModel.retry()
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value as VehicleListUiState.Content
+        assertEquals("Mazda", state.vehicles.single().brand)
     }
 }

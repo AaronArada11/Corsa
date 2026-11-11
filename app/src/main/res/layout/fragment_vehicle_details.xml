@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+    <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="wrap_content" app:title="@string/vehicle_details_title" app:navigationIcon="?attr/homeAsUpIndicator" />
+    <ScrollView android:id="@+id/detailsContent" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+            <TextView android:id="@+id/vehicleName" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+            <TextView android:id="@+id/vehiclePlate" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textAppearance="?attr/textAppearanceBodyLarge" />
+            <TextView android:id="@+id/vehicleMileage" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textAppearance="?attr/textAppearanceBodyLarge" />
+            <TextView android:id="@+id/deleteError" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textColor="?attr/colorError" android:accessibilityLiveRegion="polite" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/editVehicle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="28dp" android:minHeight="48dp" android:text="@string/edit_vehicle" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/deleteVehicle" style="@style/Widget.Material3.Button.TextButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:minHeight="48dp" android:text="@string/delete" android:textColor="?attr/colorError" />
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout android:id="@+id/detailsStatus" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:padding="24dp">
+        <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/detailsProgress" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <TextView android:id="@+id/detailsStatusTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:gravity="center" android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+        <TextView android:id="@+id/detailsStatusMessage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center" android:textAppearance="?attr/textAppearanceBodyLarge" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/detailsStatusAction" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:minHeight="48dp" />
+    </LinearLayout>
+</LinearLayout>

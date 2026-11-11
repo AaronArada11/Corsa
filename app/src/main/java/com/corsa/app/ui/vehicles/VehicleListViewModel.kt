@@ -7,30 +7,40 @@ import com.corsa.app.data.CorsaRepository
 import com.corsa.app.model.Vehicle
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class VehicleListViewModel(
     private val repository: CorsaRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<VehicleListUiState> = repository.observeAllVehicles()
-        .map { vehicles ->
-            if (vehicles.isEmpty()) {
-                VehicleListUiState.Empty
-            } else {
-                VehicleListUiState.Content(vehicles.map { it.toItemUiModel() })
+    private val retryGeneration = MutableStateFlow(0)
+
+    val uiState: StateFlow<VehicleListUiState> = retryGeneration.flatMapLatest {
+        flow { repository.observeAllVehicles().collect { emit(it) } }
+            .map { vehicles ->
+                if (vehicles.isEmpty()) VehicleListUiState.Empty
+                else VehicleListUiState.Content(vehicles.map { it.toItemUiModel() })
             }
-        }
-        .catch { throwable ->
-            emit(VehicleListUiState.Error(throwable.localizedMessage ?: "Failed to load vehicles"))
-        }
+            .onStart { emit(VehicleListUiState.Loading) }
+            .catch { emit(VehicleListUiState.Error("Unable to load vehicles")) }
+    }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = VehicleListUiState.Loading
         )
+
+    fun retry() {
+        retryGeneration.value += 1
+    }
 
     companion object {
         fun Vehicle.toItemUiModel(): VehicleListItemUiModel = VehicleListItemUiModel(
