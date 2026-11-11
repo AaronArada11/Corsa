@@ -1,19 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/dashboard_empty_backdrop"
+    tools:context=".MainActivity"
+    tools:theme="@style/Theme.Corsa.EmptyDashboard">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:minHeight="64dp"
+        android:background="@android:color/transparent"
+        android:paddingStart="20dp"
+        android:paddingEnd="16dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minHeight="64dp">
+
+            <TextView
+                android:id="@+id/logoPlaceholder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.08"
+                android:text="@string/dashboard_logo_placeholder"
+                android:textColor="@color/dashboard_text_secondary"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/settingsButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settingsButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/dashboard_settings"
+                android:textAllCaps="false"
+                android:textColor="@color/dashboard_text"
+                android:textSize="14sp"
+                app:backgroundTint="@color/dashboard_surface"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/dashboard_ic_settings"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/dashboard_text"
+                app:rippleColor="@color/dashboard_ripple"
+                app:strokeWidth="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:id="@+id/dashboardContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="32dp">
+
+            <LinearLayout
+                android:id="@+id/emptyDashboardContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintWidth_max="480dp"
+                app:layout_constraintVertical_bias="0.40"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/emptyTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:breakStrategy="balanced"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@string/dashboard_empty_title"
+                    android:textColor="@color/dashboard_text"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/emptyVehicleImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="500dp"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/dashboard_vehicle" />
+
+                <TextView
+                    android:id="@+id/emptyMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:maxWidth="320dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/dashboard_empty_message"
+                    android:textColor="@color/dashboard_text_secondary"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addVehicleButton"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:minWidth="220dp"
+                    android:minHeight="56dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.01"
+                    android:text="@string/dashboard_add_vehicle"
+                    android:textAllCaps="false"
+                    android:textColor="@color/dashboard_on_button"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/dashboard_button"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/dashboard_ic_add_vehicle"
+                    app:iconGravity="textStart"
+                    app:iconPadding="12dp"
+                    app:iconSize="24dp"
+                    app:iconTint="@color/dashboard_on_button"
+                    app:rippleColor="@color/dashboard_ripple"
+                    app:strokeWidth="0dp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:minHeight="76dp"
+        android:background="@drawable/dashboard_nav_background"
+        app:backgroundTint="@null"
+        app:elevation="0dp"
+        app:itemActiveIndicatorStyle="@style/Widget.Corsa.EmptyDashboard.ActiveIndicator"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/dashboard_nav_tint"
+        app:itemPaddingTop="8dp"
+        app:itemPaddingBottom="8dp"
+        app:itemRippleColor="@color/dashboard_ripple"
+        app:itemTextAppearanceActive="@style/TextAppearance.Corsa.EmptyDashboard.Navigation.Selected"
+        app:itemTextAppearanceInactive="@style/TextAppearance.Corsa.EmptyDashboard.Navigation"
+        app:itemTextColor="@color/dashboard_nav_tint"
+        app:labelFontScalingEnabled="true"
+        app:labelMaxLines="2"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/dashboard_navigation"
+        app:layout_constraintWidth_max="520dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
