@@ -127,15 +127,15 @@
 
 **Acceptance criteria:**
 
-- [ ] Each row renders brand, model, year, plate when present, and mileage for one stable vehicle ID.
-- [ ] Row binding clears an absent plate and does not leak recycled values from another vehicle.
-- [ ] Each row exposes one accessible selection action with a 48dp minimum touch target.
+- [x] Each row renders brand, model, year, plate when present, and mileage for one stable vehicle ID.
+- [x] Row binding clears an absent plate and does not leak recycled values from another vehicle.
+- [x] Each row exposes one accessible selection action with a 48dp minimum touch target.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleListAdapterTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: scroll alternating rows with and without plates and confirm that recycled rows remain correct.
+- [x] Tests pass: `./gradlew :app:assembleDebugAndroidTest` (VehicleListAdapterTest).
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: scroll alternating rows with and without plates and confirm that recycled rows remain correct.
 
 **Dependencies:** Task 4.
 
