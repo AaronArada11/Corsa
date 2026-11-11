@@ -9,10 +9,10 @@ The feature includes brand, model, model year, an optional plate number, and cur
 ## Evidence and current state
 
 - `Overview.md` and `decisions.md` assign vehicle persistence, vehicle CRUD, and Room setup to Person A.
-- The repository contains the generated `MainActivity` and Hello World layout. It has no database, repository, fragments, ViewModels, or navigation graph.
+- The repository contains the Room vehicle foundation and list state/adapter, but the generated activity still has no navigation host or usable vehicle screen.
 - Room, Navigation Component, Lifecycle, and coroutines dependencies are already staged. This conflicts with an older line in `STATUS.md` that says they are absent. The repository is the source of truth for the current implementation.
 - `GRADLE_USER_HOME=/tmp/corsa-gradle ANDROID_USER_HOME=/tmp/corsa-android ./gradlew --no-daemon --no-watch-fs --no-configuration-cache testDebugUnitTest assembleDebug` passed on 2026-11-11. Gradle fell back to in-process Kotlin compilation because the sandbox blocked the user-level Kotlin daemon directory.
-- `app/build.gradle.kts` routes the Room compiler through `annotationProcessor`. The app uses Kotlin, so the feature must move the compiler to KSP before it adds Room types. Android's current AGP 9 guidance requires KSP 2.3.6 or newer and does not require the `org.jetbrains.kotlin.android` plugin.
+- `app/build.gradle.kts` routes the Room compiler through KSP and exports schema version 1.
 
 ## Architecture decisions
 
@@ -23,7 +23,7 @@ The feature includes brand, model, model year, an optional plate number, and cur
 - Accept model years from 1886 through the next calendar year. Pass the current year into validation so tests do not depend on the wall clock.
 - Keep `photoPath` nullable in the schema to match the frozen vehicle table. Do not expose photo behavior in this feature.
 - Use explicit insert and update DAO methods. Do not use `REPLACE`. Editing a missing ID returns a missing-record outcome instead of inserting a new row.
-- Person B keeps ownership of `AppContainer`, `activity_main.xml`, and `nav_graph.xml`. Before UI integration, freeze the repository provider and the vehicle destination IDs with Person B. Person A must not create a competing app shell.
+- The shared shell has one application-owned `AppContainer` and one Navigation host. Vehicle destination IDs are `vehicleListFragment`, `vehicleDetailsFragment`, and `vehicleEditorFragment`; `vehicleId` is a primitive `Long`, with `0L` meaning create in the editor.
 - Pass only vehicle IDs between destinations. Each destination reloads the current row from Room.
 
 ## Dependency graph
@@ -63,9 +63,9 @@ Person B app shell and navigation contract
 
 ### Phase 1: Persistence foundation
 
-- [ ] Task 1: Configure Kotlin Room processing.
-- [ ] Task 2: Persist and observe vehicle rows.
-- [ ] Task 3: Validate vehicle writes through the repository.
+- [x] Task 1: Configure Kotlin Room processing.
+- [x] Task 2: Persist and observe vehicle rows.
+- [x] Task 3: Validate vehicle writes through the repository.
 
 ### Checkpoint: Persistence foundation
 
@@ -130,7 +130,7 @@ The connected test and install commands require a running emulator or an attache
 
 ## Open assumptions
 
-- Person B supplies the agreed `AppContainer` and Navigation Component shell before Task 6 integrates the list screen.
+- The feature supplies the agreed single `AppContainer` and Navigation Component shell because no competing implementation exists.
 - Model year `1886` is the lower bound. The next calendar year is the upper bound.
 - Database version 1 contains the agreed vehicle table, including nullable `photoPath`. Later tables use explicit migrations if version 1 has already shipped.
 

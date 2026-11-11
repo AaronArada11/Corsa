@@ -44,7 +44,7 @@
 
 **Verification:**
 
-- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.local.VehicleDaoTest` (assembled and verified).
+- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.local.VehicleDaoTest`.
 - [x] Build succeeds: `./gradlew :app:assembleDebug`.
 - [x] Manual check: inspect the generated JSON under `app/schemas` and compare every column with the frozen vehicle contract.
 
@@ -92,7 +92,7 @@
 
 - [x] Tasks 1 through 3 pass their focused checks.
 - [x] `./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug` passes.
-- [x] A device or emulator test reopens a file-backed database and reads two distinct vehicles.
+- [ ] A device or emulator test reopens a file-backed database and reads two distinct vehicles.
 - [x] Person B confirms the `AppContainer` repository provider and vehicle destination IDs before Task 6.
 
 ## Task 4: Expose vehicle list screen state
@@ -103,7 +103,7 @@
 
 - [x] The first state is loading, an empty query becomes the empty state, and saved vehicles appear in stable ID order.
 - [x] The content state carries only the values that the list renders and the vehicle ID needed for navigation.
-- [x] A storage failure becomes a retryable error state and does not terminate later observations.
+- [ ] A storage failure becomes a retryable error state and does not terminate later observations.
 
 **Verification:**
 
@@ -133,9 +133,9 @@
 
 **Verification:**
 
-- [x] Tests pass: `./gradlew :app:assembleDebugAndroidTest` (VehicleListAdapterTest).
+- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleListAdapterTest`.
 - [x] Build succeeds: `./gradlew :app:assembleDebug`.
-- [x] Manual check: scroll alternating rows with and without plates and confirm that recycled rows remain correct.
+- [ ] Manual check: scroll alternating rows with and without plates and confirm that recycled rows remain correct.
 
 **Dependencies:** Task 4.
 
