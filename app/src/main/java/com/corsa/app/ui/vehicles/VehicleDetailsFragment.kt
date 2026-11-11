@@ -26,7 +26,9 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener { findNavController().navigateUp() }
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.navigationContentDescription = getString(R.string.navigate_up)
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         val content = view.findViewById<View>(R.id.detailsContent)
         val status = view.findViewById<View>(R.id.detailsStatus)
         val progress = view.findViewById<CircularProgressIndicator>(R.id.detailsProgress)

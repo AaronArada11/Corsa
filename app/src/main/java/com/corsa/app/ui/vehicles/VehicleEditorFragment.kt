@@ -29,6 +29,7 @@ class VehicleEditorFragment : Fragment(R.layout.fragment_vehicle_editor) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
         toolbar.title = getString(if (arguments?.getLong("vehicleId", 0L) == 0L) R.string.create_vehicle else R.string.edit_vehicle)
+        toolbar.navigationContentDescription = getString(R.string.navigate_up)
         toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         val content = view.findViewById<View>(R.id.editorContent)
         val status = view.findViewById<View>(R.id.editorStatus)

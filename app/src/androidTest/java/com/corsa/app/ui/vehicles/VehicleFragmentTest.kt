@@ -53,6 +53,24 @@ class VehicleEditorFragmentTest {
 @RunWith(AndroidJUnit4::class)
 class VehicleDetailsFragmentTest {
     @Test
+    fun editVehicle_updatesObservedDetails() {
+        ActivityScenario.launch(MainActivity::class.java).use {
+            onView(withId(R.id.addVehicle)).perform(click())
+            onView(withId(R.id.brandInput)).perform(replaceText("Edit Test"))
+            onView(withId(R.id.modelInput)).perform(replaceText("Observed"))
+            onView(withId(R.id.yearInput)).perform(replaceText("2022"))
+            onView(withId(R.id.mileageInput)).perform(replaceText("100"))
+            onView(withId(R.id.saveVehicle)).perform(click())
+
+            onView(withId(R.id.editVehicle)).perform(click())
+            onView(withId(R.id.mileageInput)).perform(replaceText("250"))
+            onView(withId(R.id.saveVehicle)).perform(click())
+
+            onView(withText("Current odometer: 250 km")).check(matches(isDisplayed()))
+        }
+    }
+
+    @Test
     fun createThenCancelAndConfirmDelete_returnsToList() {
         ActivityScenario.launch(MainActivity::class.java).use {
             onView(withId(R.id.addVehicle)).perform(click())

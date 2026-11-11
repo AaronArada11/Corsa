@@ -24,6 +24,7 @@
     <string name="missing_vehicle_title">Vehicle not found</string>
     <string name="missing_vehicle_subtitle">This vehicle may have been deleted.</string>
     <string name="back_to_list">Back to My Cars</string>
+    <string name="navigate_up">Navigate up</string>
     <string name="editor_load_error">Couldn’t load this car</string>
     <string name="details_mileage">Current odometer: %1$s km</string>
     <string name="details_plate">Plate: %1$s</string>
