@@ -5,6 +5,9 @@
     <string name="empty_vehicles_title">No cars added yet</string>
     <string name="empty_vehicles_subtitle">Keep your vehicle records, maintenance schedules, and fuel logs in one place.</string>
     <string name="retry">Retry</string>
+    <string name="vehicle_load_error_title">Couldn’t load your cars</string>
+    <string name="vehicle_row_with_plate">%1$s, plate %2$s, %3$s</string>
+    <string name="vehicle_row_without_plate">%1$s, %2$s</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>

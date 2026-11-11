@@ -53,9 +53,9 @@ class VehicleListAdapter(
             }
 
             cardVehicle.contentDescription = if (!item.plateNumber.isNullOrBlank()) {
-                "$title, plate ${item.plateNumber}, ${item.mileageDisplay}"
+                itemView.context.getString(R.string.vehicle_row_with_plate, title, item.plateNumber, item.mileageDisplay)
             } else {
-                "$title, ${item.mileageDisplay}"
+                itemView.context.getString(R.string.vehicle_row_without_plate, title, item.mileageDisplay)
             }
 
             cardVehicle.setOnClickListener {
