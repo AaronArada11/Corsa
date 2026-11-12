@@ -6,7 +6,7 @@ tags:
 
 # CORSA status
 
-Snapshot 2026-11-11. Vehicle profile CRUD and a Room-aware partner dashboard shell are implemented and verified on an Android 17 emulator. The repository is at `/Users/aaronarada/AndroidStudioProjects/Corsa`; it uses Kotlin, Android minSdk 24, and targetSdk 37.
+Snapshot 2026-11-12. Vehicle profile CRUD, vehicle document management, and a Room-aware partner dashboard shell are implemented. The merged `main` tree passes local unit tests, debug assembly, and Android lint. The repository is at `/Users/aaronarada/AndroidStudioProjects/Corsa`; it uses Kotlin, Android minSdk 24, and targetSdk 37.
 
 [[Projects/Corsa/Overview|Overview]] · [[Projects/Corsa/progress|Progress]] · [[Projects/Corsa/decisions|Decisions]]
 
@@ -25,6 +25,8 @@ Snapshot 2026-11-11. Vehicle profile CRUD and a Room-aware partner dashboard she
 - Partner `origin/feature/dashboard-design` visual language is now the app look: forced dark empty-dashboard theme, LOGO/Settings chrome, partner copy and blue CTA, three-tab bar (Dashboard / My Cars / Analytics), while Room-backed vehicle CRUD remains on the Navigation host.
 - Analytics and Settings are stub destinations so the partner chrome works without inventing those features yet.
 - Verification passed on Android 17 emulators: unit tests, debug assembly, connected Android tests 17/17, and live UI dump confirming logo, Settings, empty-garage copy, Add vehicle CTA, and all three tabs.
+- Vehicle document management is present in Room schema version 2 with an explicit migration, repository operations, private attachment handling, an editor, and a history tab in Vehicle Details.
+- On 2026-11-12, reconciled the local project-knowledge commit with the 27 remote `main` commits. The merged tree keeps the API-27 light-navigation-bar setting in a version-qualified resource so minSdk 24 remains supported; unit tests, debug assembly, and lint all pass.
 
 ## Highest-priority next action
 

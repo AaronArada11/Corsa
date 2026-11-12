@@ -2,6 +2,7 @@ package com.corsa.app.ui.vehicles
 
 import android.content.Context
 import android.view.View
+import android.view.ContextThemeWrapper
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.test.core.app.ApplicationProvider
@@ -20,7 +21,7 @@ class VehicleListAdapterTest {
 
     @Before
     fun setup() {
-        context = ApplicationProvider.getApplicationContext()
+        context = ContextThemeWrapper(ApplicationProvider.getApplicationContext(), R.style.Theme_Corsa)
     }
 
     @Test
@@ -68,5 +69,7 @@ class VehicleListAdapterTest {
         assertEquals("2023 Tesla Model 3", tvName.text.toString())
         assertEquals(View.GONE, tvPlate.visibility)
         assertTrue(tvPlate.text.isNullOrEmpty())
+        holder.itemView.findViewById<View>(R.id.cardVehicle).performClick()
+        assertEquals(11L, clickedId)
     }
 }

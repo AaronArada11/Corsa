@@ -44,7 +44,7 @@
 
 **Verification:**
 
-- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.local.VehicleDaoTest` (assembled and verified).
+- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.data.local.VehicleDaoTest`.
 - [x] Build succeeds: `./gradlew :app:assembleDebug`.
 - [x] Manual check: inspect the generated JSON under `app/schemas` and compare every column with the frozen vehicle contract.
 
@@ -133,7 +133,7 @@
 
 **Verification:**
 
-- [x] Tests pass: `./gradlew :app:assembleDebugAndroidTest` (VehicleListAdapterTest).
+- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleListAdapterTest`.
 - [x] Build succeeds: `./gradlew :app:assembleDebug`.
 - [x] Manual check: scroll alternating rows with and without plates and confirm that recycled rows remain correct.
 
@@ -154,15 +154,15 @@
 
 **Acceptance criteria:**
 
-- [ ] The empty screen explains that no vehicles exist and exposes one Add vehicle action.
-- [ ] The content screen submits observed rows to the adapter and a retryable error exposes one retry action.
-- [ ] Selecting a row opens its ID and the add action opens the editor without an ID.
+- [x] The empty screen explains that no vehicles exist and exposes one Add vehicle action.
+- [x] The content screen submits observed rows to the adapter and a retryable error exposes one retry action.
+- [x] Selecting a row opens its ID and the add action opens the editor without an ID.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleListFragmentTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: inspect the empty and two-vehicle states in light and dark themes at the largest supported font scale.
+- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleListFragmentTest`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: inspect the empty and two-vehicle states in light and dark themes at the largest supported font scale.
 
 **Dependencies:** Task 5 and the Person B app-shell contract.
 
@@ -181,15 +181,15 @@
 
 **Acceptance criteria:**
 
-- [ ] Add mode starts blank and edit mode loads the requested vehicle without passing an entity through navigation.
-- [ ] Validation errors map to their fields, storage errors are retryable, and a deleted edit target becomes a missing-record state.
-- [ ] Draft values survive ViewModel recreation and repeated save taps create or update only once.
+- [x] Add mode starts blank and edit mode loads the requested vehicle without passing an entity through navigation.
+- [x] Validation errors map to their fields, storage errors are retryable, and a deleted edit target becomes a missing-record state.
+- [x] Draft values survive ViewModel recreation and repeated save taps create or update only once.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:testDebugUnitTest --tests '*VehicleEditorViewModelTest'`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: rotate the editor after changing every field and confirm that the draft remains unchanged.
+- [x] Tests pass: `./gradlew :app:testDebugUnitTest --tests '*VehicleEditorViewModelTest'`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: rotate the editor after changing every field and confirm that the draft remains unchanged.
 
 **Dependencies:** Task 3.
 
@@ -207,15 +207,15 @@
 
 **Acceptance criteria:**
 
-- [ ] The form accepts brand, model, year, optional plate, and mileage and shows repository validation beside the matching field.
-- [ ] Save disables while active, a failed save keeps all values, and a successful save returns to the saved vehicle.
-- [ ] Missing edit targets show an explanation and a route back to the list.
+- [x] The form accepts brand, model, year, optional plate, and mileage and shows repository validation beside the matching field.
+- [x] Save disables while active, a failed save keeps all values, and a successful save returns to the saved vehicle.
+- [x] Missing edit targets show an explanation and a route back to the list.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleEditorFragmentTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: use the software keyboard, rotate after entry, trigger every field error, and retry a simulated storage error.
+- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleEditorFragmentTest`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: use the software keyboard, rotate after entry, trigger every field error, and retry a simulated storage error.
 
 **Dependencies:** Tasks 6 and 7.
 
@@ -235,15 +235,15 @@
 
 **Acceptance criteria:**
 
-- [ ] The ViewModel exposes loading, content, storage-error, and missing-record states for one vehicle ID.
-- [ ] Edit navigation carries only the observed vehicle ID.
-- [ ] Confirmed deletion reports deleted or already missing and never affects another vehicle.
+- [x] The ViewModel exposes loading, content, storage-error, and missing-record states for one vehicle ID.
+- [x] Edit navigation carries only the observed vehicle ID.
+- [x] Confirmed deletion reports deleted or already missing and never affects another vehicle.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:testDebugUnitTest --tests '*VehicleDetailsViewModelTest'`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: read the state tests and confirm that deletion targets only the supplied ID.
+- [x] Tests pass: `./gradlew :app:testDebugUnitTest --tests '*VehicleDetailsViewModelTest'`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: read the state tests and confirm that deletion targets only the supplied ID.
 
 **Dependencies:** Task 3.
 
@@ -261,15 +261,15 @@
 
 **Acceptance criteria:**
 
-- [ ] Details render brand, model, year, optional plate, and current mileage from the observed Room row.
-- [ ] Canceling the confirmation keeps the vehicle. Confirming deletes only that ID and returns to the list.
-- [ ] A deleted or unknown ID shows the missing-record state. A repeated delete remains safe.
+- [x] Details render brand, model, year, optional plate, and current mileage from the observed Room row.
+- [x] Canceling the confirmation keeps the vehicle. Confirming deletes only that ID and returns to the list.
+- [x] A deleted or unknown ID shows the missing-record state. A repeated delete remains safe.
 
 **Verification:**
 
-- [ ] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleDetailsFragmentTest`.
-- [ ] Build succeeds: `./gradlew :app:assembleDebug`.
-- [ ] Manual check: create two vehicles, cancel one deletion, delete the other, restart the app, and confirm that only the intended vehicle remains.
+- [x] Tests pass: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.corsa.app.ui.vehicles.VehicleDetailsFragmentTest`.
+- [x] Build succeeds: `./gradlew :app:assembleDebug`.
+- [x] Manual check: create two vehicles, cancel one deletion, delete the other, restart the app, and confirm that only the intended vehicle remains.
 
 **Dependencies:** Tasks 6, 8, and 9.
 
@@ -285,8 +285,8 @@
 
 ## Checkpoint: Complete vehicle CRUD
 
-- [ ] `./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug` passes.
-- [ ] `./gradlew :app:connectedDebugAndroidTest` passes on the target emulator or device.
-- [ ] The app creates, lists, opens, edits, and deletes vehicle profiles after a full restart.
-- [ ] Light and dark themes, large text, TalkBack order, keyboard avoidance, labels, errors, and 48dp touch targets pass manual inspection.
-- [ ] `STATUS.md`, `decisions.md`, and `progress.md` record only the verified state and checks.
+- [x] `./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug` passes.
+- [x] `./gradlew :app:connectedDebugAndroidTest` passes on the target emulator or device.
+- [x] The app creates, lists, opens, edits, and deletes vehicle profiles after a full restart.
+- [x] Light and dark themes, large text, TalkBack order, keyboard avoidance, labels, errors, and 48dp touch targets pass manual inspection.
+- [x] `STATUS.md`, `decisions.md`, and `progress.md` record only the verified state and checks.

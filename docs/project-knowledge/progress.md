@@ -104,3 +104,11 @@ Verification on awake Android 17 emulator `Small_Phone_2`:
 Owner requested the partner design instead of the earlier adapted DayNight shell. Restored the partner empty-dashboard theme, logo/settings chrome, exact empty-state copy, blue Add vehicle CTA styling, Analytics tab, and floating nav treatment on top of the existing Room/Navigation host. Vehicle screens now share the same dark partner palette. Analytics and Settings are stub screens.
 
 Re-verified on Android 17 `Small_Phone`: unit tests, assembleDebug, connectedDebugAndroidTest 17/17, and UI dump showing LOGO PLACEHOLDER, Settings, Your Garage Starts Here, partner subtitle, Add vehicle, and Dashboard/My Cars/Analytics tabs.
+
+## 2026-11-12 Main branch merge reconciled
+
+Reconciled the local project-knowledge commit with 27 commits from remote `main`, preserving both the repository knowledge base and the remote vehicle CRUD, dashboard, and vehicle-document history. Confirmed there are no unresolved index entries, conflict markers, or staged whitespace errors.
+
+Lint exposed one integration issue: the dashboard theme declared `android:windowLightNavigationBar`, an API 27 attribute, in the base resources even though the app supports API 24. Moved the explicit setting behind a `values-v27` resource while retaining the shared dark dashboard theme for all supported versions.
+
+Verified the resolved tree with `testDebugUnitTest`, `:app:assembleDebug`, and `:app:lintDebug`; Gradle completed successfully with 51 actionable tasks. Connected Android tests were not rerun during this merge reconciliation.

@@ -10,15 +10,87 @@ import com.corsa.app.model.VehicleDraft
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Calendar
+import androidx.room.withTransaction
+import com.corsa.app.data.local.VehicleDocumentDao
+import com.corsa.app.data.local.VehicleDocumentEntity
+import com.corsa.app.model.DocumentDraft
+import com.corsa.app.model.DocumentType
+import com.corsa.app.model.VehicleDocument
+import com.corsa.app.model.parseDocumentDate
+import java.math.BigDecimal
 
 class CorsaRepository(
     private val vehicleDao: VehicleDao,
-    private val currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) }
+    private val currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) },
+    private val documentDao: VehicleDocumentDao? = null,
+    private val database: CorsaDatabase? = null,
+    private val documentFiles: DocumentFiles? = null
 ) {
     constructor(
         database: CorsaDatabase,
-        currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) }
-    ) : this(database.vehicleDao(), currentYearProvider)
+        currentYearProvider: () -> Int = { Calendar.getInstance().get(Calendar.YEAR) },
+        documentFiles: DocumentFiles? = null
+    ) : this(database.vehicleDao(), currentYearProvider, database.vehicleDocumentDao(), database, documentFiles)
+
+    private fun documents() = checkNotNull(documentDao) { "Document storage is not configured" }
+
+    private suspend fun <T> transaction(block: suspend () -> T): T =
+        database?.withTransaction { block() } ?: block()
+
+    suspend fun saveDocument(draft: DocumentDraft): SaveOutcome {
+        val errors = mutableMapOf<String, String>()
+        if (draft.title.isBlank()) errors["title"] = "Title is required"
+        val issue = draft.issueDate.trim().ifEmpty { null }
+        val expiry = draft.expirationDate.trim().ifEmpty { null }
+        if (issue != null && parseDocumentDate(issue) == null) errors["issueDate"] = "Use a valid YYYY-MM-DD date"
+        if (expiry != null && parseDocumentDate(expiry) == null) errors["expirationDate"] = "Use a valid YYYY-MM-DD date"
+        if (issue != null && expiry != null && expiry < issue) errors["expirationDate"] = "Expiration cannot precede issue date"
+        val cost = try {
+            BigDecimal(draft.cost.trim().ifEmpty { "0" }).movePointRight(2).longValueExact()
+        } catch (_: NumberFormatException) { null } catch (_: ArithmeticException) { null }
+        if (cost == null || cost < 0) errors["cost"] = "Enter a nonnegative PHP amount with at most two decimals"
+        if (cost != null && cost > 0 && issue == null) errors["issueDate"] = "Issue date is required for a paid document"
+        if (draft.filePath != null && documentFiles?.managedFile(draft.filePath) == null) errors["filePath"] = "Choose an app-managed attachment"
+        if (errors.isNotEmpty()) return SaveOutcome.ValidationErrors(errors)
+        var replacedPath: String? = null
+        val result = transaction {
+            val dao = documents()
+            if (vehicleDao.getById(draft.vehicleId) == null) return@transaction SaveOutcome.MissingRecord
+            if (draft.id != 0L && dao.getById(draft.id)?.vehicleId != draft.vehicleId) return@transaction SaveOutcome.MissingRecord
+            replacedPath = if (draft.id > 0) dao.getById(draft.id)?.filePath else null
+            val entity = VehicleDocumentEntity(draft.id, draft.vehicleId, draft.title.trim(), draft.documentType.name,
+                draft.documentNumber.trim().ifEmpty { null }, issue, expiry, cost!!, draft.filePath,
+                draft.physicalLocation.trim().ifEmpty { null }, draft.description.trim().ifEmpty { null })
+            if (draft.id == 0L) SaveOutcome.Success(dao.insert(entity))
+            else if (dao.update(entity) > 0) SaveOutcome.Success(draft.id) else SaveOutcome.MissingRecord
+        }
+        if (result is SaveOutcome.Success && replacedPath != draft.filePath) cleanupAttachment(replacedPath)
+        return result
+    }
+
+    suspend fun getDocument(id: Long): VehicleDocument? = documents().getById(id)?.toDomain()
+
+    fun observeVehicleDocuments(vehicleId: Long): Flow<List<VehicleDocument>> =
+        documents().observeForVehicle(vehicleId).map { rows -> rows.map { it.toDomain() } }
+
+    suspend fun deleteDocument(id: Long): DeleteOutcome {
+        var path: String? = null
+        val result = transaction {
+            path = documents().getById(id)?.filePath
+            if (documents().deleteById(id) > 0) DeleteOutcome.Deleted else DeleteOutcome.Missing
+        }
+        cleanupAttachment(path)
+        return result
+    }
+
+    private suspend fun cleanupAttachment(path: String?) {
+        if (path == null || documentFiles == null) return
+        try { transaction { if (documents().countReferences(path) == 0) documentFiles.delete(path) } }
+        catch (error: kotlinx.coroutines.CancellationException) { throw error }
+        catch (_: Exception) { /* A committed deletion must not appear to fail because file cleanup failed. */ }
+    }
+
+    internal suspend fun discardDocumentAttachment(path: String) = cleanupAttachment(path)
 
     suspend fun saveVehicle(draft: VehicleDraft): SaveOutcome {
         val errors = mutableMapOf<String, String>()
@@ -77,7 +149,12 @@ class CorsaRepository(
     }
 
     suspend fun deleteVehicle(id: Long): DeleteOutcome {
-        val rowsDeleted = vehicleDao.deleteById(id)
+        var paths = emptyList<String>()
+        val rowsDeleted = transaction {
+            paths = documentDao?.attachmentPaths(id).orEmpty()
+            vehicleDao.deleteById(id)
+        }
+        paths.forEach { cleanupAttachment(it) }
         return if (rowsDeleted > 0) {
             DeleteOutcome.Deleted
         } else {
@@ -98,6 +175,8 @@ class CorsaRepository(
     }
 
     companion object {
+        fun VehicleDocumentEntity.toDomain() = VehicleDocument(id, vehicleId, title, DocumentType.valueOf(documentType),
+            documentNumber, issueDate, expirationDate, costMinor, filePath, physicalLocation, description)
         fun VehicleEntity.toDomain(): Vehicle = Vehicle(
             id = id,
             brand = brand,
