@@ -6,6 +6,22 @@ tags:
 
 # CORSA progress
 
+## 2026-11-12 Windows emulator validation
+
+On `Medium_Phone_API_37.0` (Android 17), `testDebugUnitTest`, `:app:assembleDebug`, and `:app:lintDebug` passed. The first full connected run passed 24/25 tests; the new dashboard UI test hit an asynchronous first-render assertion, which was changed to wait for the observed text. On rerun, both populated-dashboard tests passed and the full suite passed 23/25; two older vehicle-details tests failed while looking for `addVehicle` after other tests had left vehicle records in the shared emulator database. This suite needs isolated app data or tests independent of prior records before a full green result can be claimed.
+
+Installed and launched the debug APK separately through adb. The empty dashboard appeared, a vehicle was saved through the editor, and a fresh launch rendered its selected-vehicle dashboard with odometer `12,345 km` and the photo fallback. No app crash appeared in the checked AndroidRuntime log. The synthetic vehicle entry has malformed brand/model text from adb keyboard taps and remains in this emulator's app data; it is test data, not a repository change.
+
+## 2026-11-12 Populated selected-vehicle dashboard
+
+Implemented a separate populated dashboard while preserving the existing empty-state XML subtree, dark theme, toolbar, Settings action, bottom navigation, and editor navigation. Added observed vehicle selection with a marked Material choice dialog and Add another vehicle action; neutral brand initial, optional plate, live odometer, bounded private-photo decoding, silhouette fallback, and gradient information cards.
+
+Maintenance, fuel, and expense persistence do not exist yet. Their sections explicitly show unavailable/insufficient-data states, service/fuel buttons are disabled and labeled, and no fictional totals, deadlines, health score, or efficiency calculations are displayed. Document costs are explicitly excluded from the unavailable spending summary.
+
+Verification: debug assembly, all 25 local unit tests, and Android lint passed (0 errors, 35 warnings outside the new dashboard resources). The dashboard unit tests cover first insert, selection, live edits, selected deletion, last deletion, and retry. Two new connected tests passed on the Android 17 Medium_Phone_API_37.0 emulator, covering empty-to-populated observation, vehicle switching, optional plates, missing photos, observed edits, missing-data sections, a measured 200% font layout, deletion recovery, and valid/corrupt/outside-private-root photo decoding. The first runs exposed a JUnit return-type issue and an asynchronous Room assertion race in the test harness; both were corrected before the passing rerun.
+
+XML comparison against HEAD confirmed the pre-existing dashboard layout is identical after removing the newly added hidden include. Shared theme/chrome resources were not modified. Calculated contrast against the lightest new card gradient is 12.95:1 for primary text and 7.72:1 for secondary text. Test-generated screenshots could not be retrieved after the connected run; visual screenshot review and a manual TalkBack walkthrough were not completed. Unrelated existing IDE/Gradle worktree changes were preserved. No commit or push was performed.
+
 [[Projects/Corsa/Overview|Overview]] · [[Projects/Corsa/STATUS|Status]] · [[Projects/Corsa/decisions|Decisions]]
 
 ## 2026-11-09 Architecture notebook created

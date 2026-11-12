@@ -17,8 +17,15 @@ import com.corsa.app.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.text.NumberFormat
+import java.util.Locale
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
+    private var photoJob: Job? = null
     private val viewModel by viewModels<DashboardViewModel> {
         DashboardViewModel.provideFactory((requireActivity().application as CorsaApplication).container.repository)
     }
@@ -37,6 +44,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+                    view.findViewById<View>(R.id.dashboardContent).isVisible = state !is DashboardUiState.Garage
+                    view.findViewById<View>(R.id.populatedDashboard).isVisible = state is DashboardUiState.Garage
                     progress.isVisible = state is DashboardUiState.Loading
                     title.isVisible = state !is DashboardUiState.Loading
                     message.isVisible = state !is DashboardUiState.Loading
@@ -56,10 +65,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                             }
                         }
                         is DashboardUiState.Garage -> {
-                            title.setText(R.string.dashboard_garage_title)
-                            message.text = getString(R.string.dashboard_garage_message, state.vehicleCount)
-                            action.setText(R.string.dashboard_view_cars)
-                            action.setOnClickListener { findNavController().navigate(R.id.vehicleListFragment) }
+                            renderGarage(view, state)
                         }
                         DashboardUiState.Error -> {
                             title.setText(R.string.dashboard_load_error_title)
@@ -71,5 +77,60 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 }
             }
         }
+    }
+
+    private fun addVehicle() {
+        findNavController().navigate(R.id.vehicleEditorFragment, Bundle().apply { putLong("vehicleId", 0L) })
+    }
+
+    private fun renderGarage(view: View, state: DashboardUiState.Garage) {
+        val car = state.selected
+        view.findViewById<TextView>(R.id.brandBadge).text =
+            car.brand.trim().take(1).uppercase(Locale.getDefault())
+        view.findViewById<TextView>(R.id.selectedBrand).text = car.brand
+        view.findViewById<TextView>(R.id.selectedModel).text = getString(R.string.dashboard_model_year, car.year, car.model)
+        view.findViewById<TextView>(R.id.selectedPlate).apply {
+            text = car.plateNumber
+            isVisible = !car.plateNumber.isNullOrBlank()
+        }
+        view.findViewById<TextView>(R.id.selectedOdometer).text =
+            getString(R.string.dashboard_km, NumberFormat.getIntegerInstance().format(car.currentMileageKm))
+        view.findViewById<View>(R.id.dashboardAddVehicle).setOnClickListener { addVehicle() }
+        view.findViewById<View>(R.id.vehicleSelector).apply {
+            contentDescription = getString(R.string.dashboard_vehicle_description, car.displayName, car.plateNumber.orEmpty())
+            setOnClickListener {
+                val current = viewModel.uiState.value as? DashboardUiState.Garage ?: return@setOnClickListener
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.dashboard_choose_vehicle)
+                    .setSingleChoiceItems(current.vehicles.map { it.displayName }.toTypedArray(),
+                        current.vehicles.indexOfFirst { it.id == current.selected.id }) { dialog, index ->
+                        viewModel.selectVehicle(current.vehicles[index].id)
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(R.string.dashboard_add_another) { _, _ -> addVehicle() }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+            }
+        }
+        val photo = view.findViewById<ImageView>(R.id.selectedPhoto)
+        photoJob?.cancel()
+        photo.setImageResource(R.drawable.dashboard_car_placeholder)
+        photo.contentDescription = getString(R.string.dashboard_photo_fallback, car.displayName)
+        val privateRoot = requireContext().filesDir
+        photoJob = viewLifecycleOwner.lifecycleScope.launch {
+            val bitmap = withContext(Dispatchers.IO) {
+                DashboardPhoto.load(privateRoot, car.photoPath)
+            }
+            if (bitmap != null) {
+                photo.setImageBitmap(bitmap)
+                photo.contentDescription = getString(R.string.dashboard_photo, car.displayName)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        photoJob?.cancel()
+        photoJob = null
+        super.onDestroyView()
     }
 }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:fillViewport="true">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+    <LinearLayout
+      android:id="@+id/vehicleSelector"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="64dp"
+      android:padding="12dp"
+      android:orientation="horizontal"
+      android:gravity="center_vertical"
+      android:background="@drawable/dashboard_glass"
+      android:foreground="?attr/selectableItemBackground"
+      android:clickable="true"
+      android:focusable="true">
+      <TextView
+        android:id="@+id/brandBadge"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="@color/dashboard_text"
+        android:importantForAccessibility="no" />
+      <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:importantForAccessibility="noHideDescendants">
+        <TextView
+          android:id="@+id/selectedBrand"
+          style="@style/DashboardHeading" />
+        <TextView
+          android:id="@+id/selectedModel"
+          style="@style/DashboardBody" />
+        <TextView
+          android:id="@+id/selectedPlate"
+          style="@style/DashboardBody" />
+      </LinearLayout>
+      <TextView
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dashboard_expand"
+        android:textSize="24sp"
+        android:textColor="@color/dashboard_text"
+        android:importantForAccessibility="no" />
+    </LinearLayout>
+    <ImageView
+      android:id="@+id/selectedPhoto"
+      android:layout_width="match_parent"
+      android:layout_height="220dp"
+      android:layout_marginTop="16dp"
+      android:scaleType="fitCenter"
+      android:src="@drawable/dashboard_car_placeholder"
+      android:contentDescription="@null" />
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="20dp"
+      android:background="@drawable/dashboard_photo_shadow"
+      android:importantForAccessibility="no" />
+    <LinearLayout
+      style="@style/DashboardCard">
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_odometer" />
+      <TextView
+        android:id="@+id/selectedOdometer"
+        style="@style/DashboardHeading"
+        android:textSize="36sp"
+        android:fontFeatureSettings="tnum"
+        android:layout_marginTop="8dp" />
+    </LinearLayout>
+    <LinearLayout
+      style="@style/DashboardCard">
+      <TextView
+        style="@style/DashboardHeading"
+        android:text="@string/dashboard_next_service" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_service_unavailable" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_service_explanation" />
+    </LinearLayout>
+    <LinearLayout
+      style="@style/DashboardCard">
+      <TextView
+        style="@style/DashboardHeading"
+        android:text="@string/dashboard_quick_actions" />
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/dashboardAddVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:text="@string/dashboard_add_vehicle"
+        android:textSize="16sp"
+        app:cornerRadius="16dp" />
+      <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:enabled="false"
+        android:text="@string/dashboard_record_service"
+        android:textColor="@color/dashboard_text_secondary"
+        android:textSize="16sp" />
+      <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:enabled="false"
+        android:text="@string/dashboard_log_fuel"
+        android:textColor="@color/dashboard_text_secondary"
+        android:textSize="16sp" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_actions_explanation" />
+    </LinearLayout>
+    <LinearLayout
+      style="@style/DashboardCard">
+      <TextView
+        style="@style/DashboardHeading"
+        android:text="@string/dashboard_urgent" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_urgent_empty" />
+    </LinearLayout>
+    <LinearLayout
+      style="@style/DashboardCard">
+      <TextView
+        style="@style/DashboardHeading"
+        android:text="@string/dashboard_spending" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_unavailable" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_spending_categories" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_spending_explanation" />
+    </LinearLayout>
+    <LinearLayout
+      style="@style/DashboardCard">
+      <TextView
+        style="@style/DashboardHeading"
+        android:text="@string/dashboard_efficiency" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_insufficient" />
+      <TextView
+        style="@style/DashboardBody"
+        android:text="@string/dashboard_efficiency_explanation" />
+    </LinearLayout>
+  </LinearLayout>
+</ScrollView>

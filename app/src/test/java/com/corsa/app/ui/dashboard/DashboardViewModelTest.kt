@@ -36,7 +36,7 @@ class DashboardViewModelTest {
         assertEquals(DashboardUiState.Empty, model.uiState.value)
         dao.insert(VehicleEntity(brand = "A", model = "One", year = 2024, currentMileageKm = 1))
         advanceUntilIdle()
-        assertEquals(DashboardUiState.Garage(1), model.uiState.value)
+        assertEquals(1L, (model.uiState.value as DashboardUiState.Garage).selected.id)
     }
 
     @Test fun error_canRetry() = runTest {
@@ -48,16 +48,40 @@ class DashboardViewModelTest {
         dao.fails = false; model.retry(); advanceUntilIdle()
         assertEquals(DashboardUiState.Empty, model.uiState.value)
     }
+
+    @Test fun selection_tracksEditsAndDeletion_thenReturnsToEmpty() = runTest {
+        val model = DashboardViewModel(CorsaRepository(dao))
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { model.uiState.collect() }
+        dao.insert(VehicleEntity(brand = "A", model = "One", year = 2024, currentMileageKm = 1))
+        val id = dao.insert(VehicleEntity(brand = "B", model = "Two", year = 2025, currentMileageKm = 200))
+        model.selectVehicle(id)
+        advanceUntilIdle()
+        assertEquals("B", (model.uiState.value as DashboardUiState.Garage).selected.brand)
+        dao.update(dao.getById(id)!!.copy(brand = "Updated", currentMileageKm = 250))
+        advanceUntilIdle()
+        assertEquals("Updated", (model.uiState.value as DashboardUiState.Garage).selected.brand)
+        assertEquals(250L, (model.uiState.value as DashboardUiState.Garage).selected.currentMileageKm)
+        dao.deleteById(id)
+        advanceUntilIdle()
+        assertEquals(1L, (model.uiState.value as DashboardUiState.Garage).selected.id)
+        dao.deleteById(1)
+        advanceUntilIdle()
+        assertEquals(DashboardUiState.Empty, model.uiState.value)
+    }
 }
 
 private class DashboardDao : VehicleDao {
     private val state = MutableStateFlow<List<VehicleEntity>>(emptyList())
     var fails = false
     override suspend fun insert(vehicle: VehicleEntity): Long { val id = state.value.size + 1L; state.value = state.value + vehicle.copy(id = id); return id }
-    override suspend fun update(vehicle: VehicleEntity) = 0
+    override suspend fun update(vehicle: VehicleEntity): Int {
+        state.value = state.value.map { if (it.id == vehicle.id) vehicle else it }; return 1
+    }
     override suspend fun getById(id: Long) = state.value.firstOrNull { it.id == id }
     override fun observeById(id: Long): Flow<VehicleEntity?> = state.map { rows -> rows.firstOrNull { it.id == id } }
     override fun observeAll(): Flow<List<VehicleEntity>> = if (fails) flow { throw IllegalStateException("disk") } else state
-    override suspend fun deleteById(id: Long) = 0
+    override suspend fun deleteById(id: Long): Int {
+        state.value = state.value.filterNot { it.id == id }; return 1
+    }
     override suspend fun advanceMileageIfHigher(id: Long, newMileageKm: Long) = 0
 }

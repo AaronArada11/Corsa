@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string
+    name="dashboard_expand"
+    translatable="false">⌄</string>
+  <string
+    name="dashboard_choose_vehicle">Choose vehicle</string>
+  <string
+    name="dashboard_add_another">Add another vehicle</string>
+  <string
+    name="dashboard_vehicle_description">%1$s. %2$s. Change selected vehicle</string>
+  <string
+    name="dashboard_model_year">%1$d %2$s</string>
+  <string
+    name="dashboard_photo">Photo of %1$s</string>
+  <string
+    name="dashboard_photo_fallback">Vehicle silhouette. No readable photo for %1$s</string>
+  <string
+    name="dashboard_odometer">Current odometer</string>
+  <string
+    name="dashboard_km">%1$s km</string>
+  <string
+    name="dashboard_next_service">Next maintenance</string>
+  <string
+    name="dashboard_service_unavailable">Maintenance tracking unavailable</string>
+  <string
+    name="dashboard_service_explanation">Service schedules and mileage or date limits will appear when maintenance tracking is available.</string>
+  <string
+    name="dashboard_quick_actions">Quick actions</string>
+  <string
+    name="dashboard_record_service">Record service · unavailable</string>
+  <string
+    name="dashboard_log_fuel">Log fuel · unavailable</string>
+  <string
+    name="dashboard_actions_explanation">Service and fuel recording are not available yet.</string>
+  <string
+    name="dashboard_urgent">Urgent maintenance</string>
+  <string
+    name="dashboard_urgent_empty">No maintenance status available yet. Urgent services will appear here once tracking is available.</string>
+  <string
+    name="dashboard_spending">This month · PHP</string>
+  <string
+    name="dashboard_unavailable">Total unavailable</string>
+  <string
+    name="dashboard_spending_explanation">Spending summaries are not available yet. Document costs are not included in this summary.</string>
+  <string
+    name="dashboard_spending_categories">Fuel — unavailable\nMaintenance — unavailable\nOther expenses — unavailable</string>
+  <string
+    name="dashboard_efficiency">Fuel efficiency</string>
+  <string
+    name="dashboard_insufficient">Not enough data yet</string>
+  <string
+    name="dashboard_efficiency_explanation">Efficiency needs a complete full-to-full tank interval. Fuel logging is not available yet.</string>
+  <style
+    name="DashboardBody">
+    <item
+      name="android:layout_width">match_parent</item>
+    <item
+      name="android:layout_height">wrap_content</item>
+    <item
+      name="android:textSize">16sp</item>
+    <item
+      name="android:textColor">@color/dashboard_text_secondary</item>
+    <item
+      name="android:fontFamily">sans-serif</item>
+    <item
+      name="android:layout_marginTop">8dp</item>
+  </style>
+  <style
+    name="DashboardHeading"
+    parent="DashboardBody">
+    <item
+      name="android:textSize">20sp</item>
+    <item
+      name="android:textColor">@color/dashboard_text</item>
+    <item
+      name="android:fontFamily">sans-serif-medium</item>
+    <item
+      name="android:layout_marginTop">0dp</item>
+  </style>
+  <style
+    name="DashboardCard">
+    <item
+      name="android:layout_width">match_parent</item>
+    <item
+      name="android:layout_height">wrap_content</item>
+    <item
+      name="android:orientation">vertical</item>
+    <item
+      name="android:padding">20dp</item>
+    <item
+      name="android:layout_marginTop">16dp</item>
+    <item
+      name="android:background">@drawable/dashboard_glass</item>
+  </style>
+</resources>

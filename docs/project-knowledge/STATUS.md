@@ -12,6 +12,9 @@ Snapshot 2026-11-12. Vehicle profile CRUD, vehicle document management, and a Ro
 
 ## Completed work and current state
 
+- On 2026-11-12, added the populated Dashboard: observed vehicle selection, neutral brand initial, optional plate, prominent odometer, bounded private-photo loading with silhouette fallback, and separate gradient cards. The original empty-state XML subtree, shared theme, toolbar, bottom navigation, and editor navigation are unchanged.
+- Maintenance schedules/urgency, monthly PHP spending, and fuel efficiency explicitly show unavailable or insufficient-data copy. Service/fuel actions are disabled and labeled unavailable; Add vehicle and the selector's Add another vehicle use the existing editor. No new persistence tables or invented totals/statuses were added.
+
 - The owner supplied the product brief, course requirements, and proposed stack.
 - Cars first is confirmed.
 - The four project notes define the architecture, five-table model, package ownership, navigation, calculation contracts, and implementation sequence.

@@ -6,6 +6,12 @@ tags:
 
 # CORSA decisions
 
+## Preserve the empty dashboard while adding selected-vehicle content
+
+Confirmed by the owner on 2026-11-12. Preserve the current empty dashboard and its dark theme/chrome exactly. Add a separate scrolling populated layout with a vehicle selector, neutral initial badge, existing private photo or unbranded silhouette, and real odometer. Use restrained opaque gradients and borders for the requested glass-like cards to keep contrast predictable without blur.
+
+Vehicle identity and mileage come from the existing repository observation. Maintenance, fuel, and expense persistence are absent, so those sections explicitly report unavailable data, with disabled service/fuel actions. Document costs are not presented as complete ownership spending. Existing editor navigation remains unchanged; returning to Dashboard displays the observed saved vehicle.
+
 Recorded 2026-11-09 from the owner's brief and clarifications. Historical decision dates are unknown unless stated below. Architecture choices are recommendations awaiting implementation, not claims about existing code.
 
 [[Projects/Corsa/Overview|Overview]] · [[Projects/Corsa/STATUS|Status]] · [[Projects/Corsa/progress|Progress]]
