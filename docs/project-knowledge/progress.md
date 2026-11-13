@@ -6,6 +6,12 @@ tags:
 
 # CORSA progress
 
+## 2026-11-13 Dashboard navigation simplified
+
+Replaced the Dashboard / My Cars / Analytics bottom bar with Dashboard / Settings and removed the top-right Settings toolbar control. Added View My Cars to the populated Dashboard and made vehicle editor/detail return to Dashboard when My Cars is not on the back stack. The Analytics route remains available in the graph for later implementation but is no longer a bottom destination.
+
+Verification: `testDebugUnitTest`, `:app:assembleDebug`, and `:app:lintDebug` completed successfully. The focused `DashboardFragmentTest` ran 3/3 on Android 17, covering both bottom destinations, the populated Dashboard route to My Cars, and the editor-to-details-to-Dashboard return path. Four older vehicle UI tests were adapted to open their list destination directly and compiled. The full connected suite could not start: Android's device bridge failed to read emulator properties and Gradle skipped it as `Unknown API Level`. A manual screenshot review was not run.
+
 ## 2026-11-12 Windows emulator validation
 
 On `Medium_Phone_API_37.0` (Android 17), `testDebugUnitTest`, `:app:assembleDebug`, and `:app:lintDebug` passed. The first full connected run passed 24/25 tests; the new dashboard UI test hit an asynchronous first-render assertion, which was changed to wait for the observed text. On rerun, both populated-dashboard tests passed and the full suite passed 23/25; two older vehicle-details tests failed while looking for `addVehicle` after other tests had left vehicle records in the shared emulator database. This suite needs isolated app data or tests independent of prior records before a full green result can be claimed.

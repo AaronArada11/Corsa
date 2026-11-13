@@ -91,7 +91,7 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                     statusAction.isVisible = state is VehicleDetailsUiState.Error || state is VehicleDetailsUiState.Missing
                     when (state) {
                         VehicleDetailsUiState.Loading -> Unit
-                        VehicleDetailsUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
+                        VehicleDetailsUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { returnToVehicles() } }
                         is VehicleDetailsUiState.Error -> { statusTitle.text = state.message; statusAction.setText(R.string.retry); statusAction.setOnClickListener { viewModel.retry() } }
                         is VehicleDetailsUiState.Content -> {
                             renderDocuments(view, state)
@@ -103,10 +103,16 @@ class VehicleDetailsFragment : Fragment(R.layout.fragment_vehicle_details) {
                             edit.setOnClickListener { findNavController().navigate(R.id.vehicleEditorFragment, Bundle().apply { putLong("vehicleId", state.vehicle.id) }) }
                             delete.setOnClickListener { showDeleteDialog(state.vehicle) }
                         }
-                        VehicleDetailsUiState.Deleted -> findNavController().popBackStack(R.id.vehicleListFragment, false)
+                        VehicleDetailsUiState.Deleted -> returnToVehicles()
                     }
                 }
             }
+        }
+    }
+
+    private fun returnToVehicles() {
+        if (!findNavController().popBackStack(R.id.vehicleListFragment, false)) {
+            findNavController().popBackStack(R.id.dashboardFragment, false)
         }
     }
 

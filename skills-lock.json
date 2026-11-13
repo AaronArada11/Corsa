@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "skills": {
+    "domain-modeling": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/domain-modeling/SKILL.md",
+      "computedHash": "b78689833404148c769077355e12dbe5ad996a158a1e21e58ddf169e439d9d8c"
+    },
+    "scenario": {
+      "source": "scenario-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/scenario/SKILL.md",
+      "computedHash": "6fe164042f60328829a5f3a5cf25bf857819d2b7d071b8624847377801e04a64"
+    },
+    "scenario-3d": {
+      "source": "scenario-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/scenario-3d/SKILL.md",
+      "computedHash": "0c5345c20b6a14dfc1454d457133f7b846e1c21fff182392325502764b4912ba"
+    },
+    "scenario-consistency": {
+      "source": "scenario-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/scenario-consistency/SKILL.md",
+      "computedHash": "f9b5f5c74ca947dc8a8b77c2b4e578feda215eedc79e04c4d7ac98d3c2bb0033"
+    },
+    "scenario-orbit-views": {
+      "source": "scenario-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/scenario-orbit-views/SKILL.md",
+      "computedHash": "67cb0581fbba9b47b343584567c508b2631ca2c6b39a7a994691e2e64d58aeb1"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "2782702b2cf69ace085ed30d067b6f8bfd2d777ad51770fc5bdae9cb5c1b5c04"
+    },
+    "verification-before-completion": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/verification-before-completion/SKILL.md",
+      "computedHash": "09b0e3a4689c1c38a3b8fc6ef57a1d4165aa33c0013d546dbde9dd348941a319"
+    }
+  }
+}

@@ -36,10 +36,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val action = view.findViewById<MaterialButton>(R.id.addVehicleButton)
         val vehicleImage = view.findViewById<ImageView>(R.id.emptyVehicleImage)
         val progress = view.findViewById<CircularProgressIndicator>(R.id.dashboardProgress)
-        val settingsButton = view.findViewById<MaterialButton>(R.id.settingsButton)
 
         ViewCompat.setAccessibilityHeading(title, true)
-        settingsButton.setOnClickListener { findNavController().navigate(R.id.settingsFragment) }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -96,6 +94,9 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         view.findViewById<TextView>(R.id.selectedOdometer).text =
             getString(R.string.dashboard_km, NumberFormat.getIntegerInstance().format(car.currentMileageKm))
         view.findViewById<View>(R.id.dashboardAddVehicle).setOnClickListener { addVehicle() }
+        view.findViewById<View>(R.id.dashboardViewCars).setOnClickListener {
+            findNavController().navigate(R.id.vehicleListFragment)
+        }
         view.findViewById<View>(R.id.vehicleSelector).apply {
             contentDescription = getString(R.string.dashboard_vehicle_description, car.displayName, car.plateNumber.orEmpty())
             setOnClickListener {

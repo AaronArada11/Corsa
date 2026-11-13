@@ -6,12 +6,13 @@ tags:
 
 # CORSA status
 
-Snapshot 2026-11-12. Vehicle profile CRUD, vehicle document management, and a Room-aware partner dashboard shell are implemented. The merged `main` tree passes local unit tests, debug assembly, and Android lint. The repository is at `/Users/aaronarada/AndroidStudioProjects/Corsa`; it uses Kotlin, Android minSdk 24, and targetSdk 37.
+Snapshot 2026-11-13. Vehicle profile CRUD, vehicle document management, and a Room-aware partner dashboard shell are implemented. The current working tree passes local unit tests, debug assembly, and Android lint. The Android app uses Kotlin, minSdk 24, and targetSdk 37.
 
 [[Projects/Corsa/Overview|Overview]] · [[Projects/Corsa/progress|Progress]] · [[Projects/Corsa/decisions|Decisions]]
 
 ## Completed work and current state
 
+- On 2026-11-13, the bottom bar contains Dashboard and Settings. The Dashboard toolbar Settings button, My Cars tab, and Analytics tab were removed. A populated Dashboard offers View My Cars; vehicle editor and details return to Dashboard when the list is absent from the back stack. Settings and Analytics remain stub destinations in the navigation graph. Three focused Android 17 navigation tests passed, as did unit tests, debug assembly, and lint. The full connected suite compiled but could not start because the emulator reported an unknown API level.
 - On 2026-11-12, added the populated Dashboard: observed vehicle selection, neutral brand initial, optional plate, prominent odometer, bounded private-photo loading with silhouette fallback, and separate gradient cards. The original empty-state XML subtree, shared theme, toolbar, bottom navigation, and editor navigation are unchanged.
 - Maintenance schedules/urgency, monthly PHP spending, and fuel efficiency explicitly show unavailable or insufficient-data copy. Service/fuel actions are disabled and labeled unavailable; Add vehicle and the selector's Add another vehicle use the existing editor. No new persistence tables or invented totals/statuses were added.
 
@@ -25,7 +26,7 @@ Snapshot 2026-11-12. Vehicle profile CRUD, vehicle document management, and a Ro
 - Room schema version 1 persists vehicle rows with nullable plate and photo path fields. Repository validation covers required text, model-year bounds, mileage parsing/overflow, normalization, missing edits, and idempotent missing deletes.
 - Vehicle drafts survive saved-state recreation, repeated saves are guarded, navigation passes only primitive IDs, and observed list/details screens update from Room.
 - Phase 0 duplication was reduced: unique navigation and ownership contracts remain in `tasks-personA/plan.md`; the duplicate repository glossary, contract-freeze file, and four ADR copies were removed because the vault remains the product/decision authority.
-- Partner `origin/feature/dashboard-design` visual language is now the app look: forced dark empty-dashboard theme, LOGO/Settings chrome, partner copy and blue CTA, three-tab bar (Dashboard / My Cars / Analytics), while Room-backed vehicle CRUD remains on the Navigation host.
+- Partner `origin/feature/dashboard-design` visual language remains the app look: forced dark empty-dashboard theme, partner copy and blue CTA, while Room-backed vehicle CRUD remains on the Navigation host. Its original three-tab chrome has been superseded by the two-tab bar above.
 - Analytics and Settings are stub destinations so the partner chrome works without inventing those features yet.
 - Verification passed on Android 17 emulators: unit tests, debug assembly, connected Android tests 17/17, and live UI dump confirming logo, Settings, empty-garage copy, Add vehicle CTA, and all three tabs.
 - Vehicle document management is present in Room schema version 2 with an explicit migration, repository operations, private attachment handling, an editor, and a history tab in Vehicle Details.

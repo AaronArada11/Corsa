@@ -30,8 +30,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNavigation.isVisible = destination.id == R.id.dashboardFragment ||
-                destination.id == R.id.vehicleListFragment ||
-                destination.id == R.id.analyticsFragment
+                destination.id == R.id.settingsFragment
         }
     }
 }

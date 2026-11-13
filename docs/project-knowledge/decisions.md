@@ -118,6 +118,10 @@ Confirmed by the owner on 2026-11-11 after comparing the running app with the pa
 
 Keep the Room-aware Fragment/Navigation implementation underneath. Analytics and Settings remain stub destinations until those features are built. Reconsider restoring a light appearance only if the owner asks for DayNight again.
 
+## Simplify primary navigation to Dashboard and Settings
+
+Decided by the owner on 2026-11-13. Remove the top-right Settings control and place Settings in the bottom navigation position previously occupied by Analytics. Remove My Cars from the bottom bar. Keep vehicle management reachable through a View My Cars action on the populated Dashboard, and retain the vehicle list and detail routes. Analytics stays a stub route for future work but is not a primary tab. This supersedes the earlier three-tab chrome decision without changing the partner palette or Room-backed shell.
+
 ## ## Include vehicle document management in active scope
 
 Confirmed by the owner on 2026-11-11. Vehicle document management is added back to the active scope.

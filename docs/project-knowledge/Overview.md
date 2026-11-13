@@ -139,7 +139,7 @@ Period efficiency is total eligible distance divided by total eligible liters, n
 
 ## Navigation
 
-Bottom navigation contains Dashboard, My Cars, and Analytics. Settings opens from the toolbar. Dashboard has an all-cars summary and links to car-specific records. Each detail or editor receives a car ID and, when needed, a record ID. Reload records from Room instead of passing mutable entities.
+Bottom navigation contains Dashboard and Settings. The populated Dashboard links to My Cars for vehicle management; Analytics is deferred from primary navigation. Dashboard has an all-cars summary and links to car-specific records. Each detail or editor receives a car ID and, when needed, a record ID. Reload records from Room instead of passing mutable entities.
 
 ```mermaid
 flowchart TD
@@ -153,7 +153,6 @@ flowchart TD
     FUEL --> FEDIT[Fuel Editor]
     CAR --> EXP[Expenses]
     EXP --> EEDIT[Manual Expense Editor]
-    DASH --> ANALYTICS[Basic Analytics]
     DASH --> SETTINGS[Settings]
     DASH -->|Maintenance alert| MAINT
 ```
@@ -199,7 +198,7 @@ Mileage and next service        Mileage         Service list
 Log fuel | Record service       Quick actions   Spending summary
 Upcoming services
 Monthly spending
-Dashboard | My Cars | Analytics  Dashboard | My Cars | Analytics
+Dashboard | Settings             Dashboard | Settings
 ```
 
 Use `MaterialToolbar`, `BottomNavigationView`, `MaterialButton`, `TextInputLayout`, `RecyclerView`, and standard date pickers. Expense and history rows show date, description, and a right-aligned amount. Forms retain persistent labels and inline errors. Avoid concealing records with blur. Use a static user photo or a neutral car illustration initially rather than a runtime 3D renderer. This preserves the vehicle focus without adding a rendering subsystem.

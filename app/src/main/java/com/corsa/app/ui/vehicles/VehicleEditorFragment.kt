@@ -61,7 +61,7 @@ class VehicleEditorFragment : Fragment(R.layout.fragment_vehicle_editor) {
                     statusAction.isVisible = state is VehicleEditorUiState.LoadError || state is VehicleEditorUiState.Missing
                     when (state) {
                         VehicleEditorUiState.Loading -> Unit
-                        VehicleEditorUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { findNavController().popBackStack(R.id.vehicleListFragment, false) } }
+                        VehicleEditorUiState.Missing -> { statusTitle.setText(R.string.missing_vehicle_title); statusMessage.setText(R.string.missing_vehicle_subtitle); statusAction.setText(R.string.back_to_list); statusAction.setOnClickListener { returnToVehicles() } }
                         is VehicleEditorUiState.LoadError -> { statusTitle.text = state.message; statusAction.setText(R.string.retry); statusAction.setOnClickListener { viewModel.retryLoad() } }
                         is VehicleEditorUiState.Form -> {
                             fun TextInputEditText.show(value: String) { if (text.toString() != value) setText(value) }
@@ -75,12 +75,18 @@ class VehicleEditorFragment : Fragment(R.layout.fragment_vehicle_editor) {
                             listOf(brand, model, year, plate, mileage).forEach { it.isEnabled = !state.saving }
                         }
                         is VehicleEditorUiState.Saved -> {
-                            findNavController().popBackStack(R.id.vehicleListFragment, false)
+                            returnToVehicles()
                             findNavController().navigate(R.id.vehicleDetailsFragment, Bundle().apply { putLong("vehicleId", state.id) })
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun returnToVehicles() {
+        if (!findNavController().popBackStack(R.id.vehicleListFragment, false)) {
+            findNavController().popBackStack(R.id.dashboardFragment, false)
         }
     }
 }

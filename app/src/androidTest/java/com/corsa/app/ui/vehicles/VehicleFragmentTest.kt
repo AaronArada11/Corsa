@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.navigation.fragment.NavHostFragment
 import com.corsa.app.MainActivity
 import com.corsa.app.R
 import org.hamcrest.CoreMatchers.containsString
@@ -20,7 +21,7 @@ class VehicleListFragmentTest {
     @Test
     fun addAction_opensBlankEditor() {
         ActivityScenario.launch(MainActivity::class.java).use {
-            onView(withId(R.id.vehicleListFragment)).perform(click())
+            openVehicleList(it)
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withText(R.string.create_vehicle)).check(matches(isDisplayed()))
             onView(withId(R.id.brandInput)).check(matches(withText("")))
@@ -33,7 +34,7 @@ class VehicleEditorFragmentTest {
     @Test
     fun draftSurvivesRecreation_andValidationStaysInline() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-            onView(withId(R.id.vehicleListFragment)).perform(click())
+            openVehicleList(scenario)
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withId(R.id.brandInput)).perform(replaceText("Toyota"))
             onView(withId(R.id.modelInput)).perform(replaceText("Vios"))
@@ -56,8 +57,8 @@ class VehicleEditorFragmentTest {
 class VehicleDetailsFragmentTest {
     @Test
     fun editVehicle_updatesObservedDetails() {
-        ActivityScenario.launch(MainActivity::class.java).use {
-            onView(withId(R.id.vehicleListFragment)).perform(click())
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            openVehicleList(scenario)
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withId(R.id.brandInput)).perform(replaceText("Edit Test"))
             onView(withId(R.id.modelInput)).perform(replaceText("Observed"))
@@ -75,8 +76,8 @@ class VehicleDetailsFragmentTest {
 
     @Test
     fun createThenCancelAndConfirmDelete_returnsToList() {
-        ActivityScenario.launch(MainActivity::class.java).use {
-            onView(withId(R.id.vehicleListFragment)).perform(click())
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            openVehicleList(scenario)
             onView(withId(R.id.addVehicle)).perform(click())
             onView(withId(R.id.brandInput)).perform(replaceText("Delete Test"))
             onView(withId(R.id.modelInput)).perform(replaceText("Only This"))
@@ -93,5 +94,12 @@ class VehicleDetailsFragmentTest {
             onView(withId(android.R.id.button1)).perform(click())
             onView(withId(R.id.addVehicle)).check(matches(isDisplayed()))
         }
+    }
+}
+
+private fun openVehicleList(scenario: ActivityScenario<MainActivity>) {
+    scenario.onActivity { activity ->
+        val host = activity.supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
+        host.navController.navigate(R.id.vehicleListFragment)
     }
 }

@@ -5,11 +5,7 @@
         android:icon="@drawable/dashboard_ic_home"
         android:title="@string/dashboard_tab_dashboard" />
     <item
-        android:id="@+id/vehicleListFragment"
-        android:icon="@drawable/dashboard_ic_car"
-        android:title="@string/vehicles_title" />
-    <item
-        android:id="@+id/analyticsFragment"
-        android:icon="@drawable/dashboard_ic_analytics"
-        android:title="@string/dashboard_tab_analytics" />
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/dashboard_ic_settings"
+        android:title="@string/dashboard_settings" />
 </menu>
